@@ -1,0 +1,53 @@
+# =============================================================================
+# dev-v3se-public — shareable single-repo templates, examples, and playbook.
+# Keep this .gitignore strict — anything committed here is public.
+# =============================================================================
+
+# Secrets — never commit these
+.env
+.env.*
+!.env.example
+!.env.template
+*.pem
+*.key
+credentials.json
+*.token
+
+# Python / pixi
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pixi/
+pixi.lock
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Build outputs + run artifacts
+dist/
+build/
+*.egg-info/
+results/
+runs/
+logs/
+*.log
+
+# Large model / container blobs — should live on Mimer, not in git
+*.sif
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.gguf
+
+# Jupyter
+.ipynb_checkpoints/
