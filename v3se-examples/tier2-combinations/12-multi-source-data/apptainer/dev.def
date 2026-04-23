@@ -1,0 +1,14 @@
+Bootstrap: docker
+From: ghcr.io/prefix-dev/pixi:0.36.0-noble
+
+%environment
+    export PIXI_HOME=/opt/pixi
+    export PATH=/opt/pixi/bin:$PATH
+
+%post
+    apt-get update && apt-get install -y --no-install-recommends \
+        ca-certificates curl git rsync rclone tini && rm -rf /var/lib/apt/lists/*
+
+%runscript
+    [ "$#" -eq 0 ] && exec bash
+    exec "$@"

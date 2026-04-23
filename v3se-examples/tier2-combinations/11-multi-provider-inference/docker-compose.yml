@@ -1,0 +1,26 @@
+services:
+  dev:
+    build:
+      context: ../../_shared/docker
+      dockerfile: Dockerfile.dev
+    image: infer-multi:dev
+    container_name: infer-multi-dev
+    working_dir: /workspace
+    env_file:
+      - .env
+    volumes:
+      - .:/workspace
+      - ${DATA_HOST:-../data}:/data
+      - ${RESULTS_HOST:-../results}:/results
+      - ${MODELS_HOST:-../models}:/models
+      - pixi_env:/workspace/.pixi
+      # For claude_cli provider: bind host credentials.
+      # Fill CLAUDE_HOST_DIR / CLAUDE_HOST_JSON in .env, then uncomment:
+      # - ${CLAUDE_HOST_DIR}:/root/.claude
+      # - ${CLAUDE_HOST_JSON}:/root/.claude.json
+    ports:
+      - "${JUPYTER_PORT:-7888}:7888"
+    command: sleep infinity
+
+volumes:
+  pixi_env:

@@ -1,0 +1,30 @@
+# Docker equivalent of apptainer/bundle.def for laptop-only runs.
+# Build:
+#     docker build --build-arg MODEL_REPO=... --build-arg MODEL_REF=... \
+#                  -f Dockerfile.bundle -t git-model-bundle .
+# Run:
+#     docker run --gpus all -v $PWD:/workspace git-model-bundle pixi run infer --prompt "Hello"
+
+FROM nvidia/cuda:12.1.0-cudnn8-runtime-ubuntu22.04
+
+ARG MODEL_REPO=https://example.invalid/<org>/<repo>.git
+ARG MODEL_REF=main
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        git git-lfs curl ca-certificates python3 python3-pip python3-venv && \
+    git lfs install && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /opt/model && \
+    cd /opt/model && \
+    git clone --depth 1 --branch "${MODEL_REF}" "${MODEL_REPO}" . && \
+    git lfs pull && \
+    if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.txt; \
+    elif [ -f pyproject.toml ]; then pip install --no-cache-dir .; fi && \
+    rm -rf /opt/model/.git
+
+ENV MODEL_DIR=/opt/model \
+    PYTHONPATH=/opt/model
+
+WORKDIR /workspace

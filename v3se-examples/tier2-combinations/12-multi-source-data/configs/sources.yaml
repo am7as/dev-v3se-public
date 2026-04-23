@@ -1,0 +1,43 @@
+# Named datasets per source. The sbatch / .env references these by logical
+# name; the mount/bind mapping is per-environment (laptop vs Alvis).
+
+local:
+  description: Files under the container's /data (host: DATA_HOST or sibling default)
+  examples:
+    sample: "./data/sample"
+
+cephyr_private:
+  description: |
+    Your own Cephyr directory, bound into /data at sbatch time.
+    Cephyr is small (30 GiB / 60k files) — only safe for configs + tiny datasets.
+    For anything big use `mimer_project` instead.
+  examples:
+    my-configs: "/cephyr/users/<cid>/Alvis/my-configs"
+
+mimer_project:
+  description: |
+    Your project's Mimer allocation — writable, hundreds of GiB, no backups.
+    This is where real datasets, checkpoints, and big results live.
+  examples:
+    my-data: "/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-data"
+    my-checkpoints: "/mimer/NOBACKUP/groups/<naiss-id>/<cid>/checkpoints"
+
+mimer_shared:
+  description: |
+    Read-only shared datasets mirrored by C3SE at /mimer/NOBACKUP/Datasets/.
+    Doesn't count against your allocation.
+  examples:
+    nuScenes: "/mimer/NOBACKUP/Datasets/nuScenes"
+    imagenet: "/mimer/NOBACKUP/Datasets/ImageNet"
+
+hf_hub:
+  description: HuggingFace Datasets Hub
+  examples:
+    imdb: "imdb"
+    alpaca: "tatsu-lab/alpaca"
+    waymo_mi: "waymo-research/waymo_open_dataset_motion_v1_2_1"
+
+gcs:
+  description: Google Cloud Storage via rclone
+  examples:
+    waymo: "waymo:open/v1"

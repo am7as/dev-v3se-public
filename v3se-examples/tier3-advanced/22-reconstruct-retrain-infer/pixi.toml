@@ -1,0 +1,32 @@
+[workspace]
+name = "reco"
+version = "0.1.0"
+description = "V3SE template: architecture surgery + retrain + infer"
+authors = ["v3se-template contributors <noreply@example.com>"]
+channels = ["conda-forge"]
+platforms = ["linux-64", "win-64", "osx-arm64"]
+
+[dependencies]
+python = "3.12.*"
+pip = "*"
+
+[pypi-dependencies]
+reco         = { path = ".", editable = true }
+torch        = { version = ">=2.5", index = "https://download.pytorch.org/whl/cu121" }
+transformers = ">=4.46"
+accelerate   = ">=1.0"
+deepspeed    = "*"
+datasets     = ">=3.0"
+evaluate     = "*"
+scikit-learn = "*"
+pyyaml       = "*"
+wandb        = "*"
+
+[tasks]
+smoke   = "python scripts/smoke.py"
+info    = "python scripts/info.py"
+surgery = "python scripts/surgery.py"
+train   = "accelerate launch --config_file configs/accelerate/${ACCELERATE_CONFIG:-single}.yaml scripts/train.py"
+eval    = "python scripts/eval.py"
+test    = "pytest -q tests/"
+lint    = "python -m compileall src scripts tests"

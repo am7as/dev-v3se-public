@@ -1,0 +1,37 @@
+Bootstrap: docker
+From: vllm/vllm-openai:v0.7.3
+
+%labels
+    Purpose vLLM OpenAI-compatible server SIF (for Alvis + Slurm)
+
+%environment
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+    export HF_HOME=${HF_HOME:-/workspace/.hf-cache}
+
+%post
+    # Upstream image already has vllm + python. Just pin utility tools.
+    apt-get update && apt-get install -y --no-install-recommends \
+        ca-certificates curl tini && rm -rf /var/lib/apt/lists/*
+
+%runscript
+    # Default: start the vLLM OpenAI-compatible server.
+    # Expected env:
+    #   VLLM_MODEL       — HF id or local path
+    #   VLLM_PORT        — port to bind (use find_ports to discover in sbatch)
+    #   VLLM_TENSOR_PARALLEL — number of GPUs to shard across (default 1)
+    : "${VLLM_MODEL:?Set VLLM_MODEL}"
+    : "${VLLM_PORT:?Set VLLM_PORT (hint: use _shared/scripts/find_ports.sh)}"
+    : "${VLLM_TENSOR_PARALLEL:=1}"
+
+    exec python -m vllm.entrypoints.openai.api_server \
+        --model "${VLLM_MODEL}" \
+        --port "${VLLM_PORT}" \
+        --tensor-parallel-size "${VLLM_TENSOR_PARALLEL}" \
+        --host 0.0.0.0
+
+%help
+    vLLM server SIF. Run from sbatch, wait for "Application startup complete"
+    in the log, then hit http://localhost:${VLLM_PORT}/v1/chat/completions.
+
+    See _shared/slurm/vllm-server.sbatch for the launch skeleton.

@@ -1,0 +1,19 @@
+# DeepSpeed ZeRO-3: optimizer + gradient + PARAMETERS partitioned. Use when
+# the full model doesn't fit on a single GPU. Slower than ZeRO-2 but fits
+# much larger models.
+compute_environment: LOCAL_MACHINE
+distributed_type: DEEPSPEED
+mixed_precision: bf16
+num_machines: 1
+num_processes: 4
+main_training_function: main
+use_cpu: false
+rdzv_backend: static
+
+deepspeed_config:
+  gradient_accumulation_steps: auto
+  gradient_clipping: 1.0
+  offload_optimizer_device: none     # set to "cpu" if still OOM
+  offload_param_device: none         # set to "cpu" as last resort (slow)
+  zero3_init_flag: true
+  zero_stage: 3

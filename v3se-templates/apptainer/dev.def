@@ -1,0 +1,46 @@
+Bootstrap: docker
+From: ghcr.io/prefix-dev/pixi:0.36.0-noble
+
+%labels
+    Template __PROJECT_SLUG__
+    Mode     dev (code bind-mounted at run time; NOT baked into image)
+
+%environment
+    export PIXI_HOME=/opt/pixi
+    export PATH=/opt/pixi/bin:$PATH
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+%post
+    set -eux
+    apt-get update
+    apt-get install -y --no-install-recommends \
+        ca-certificates curl git openssh-client rsync tini
+    rm -rf /var/lib/apt/lists/*
+
+    pixi --version
+    python3 --version
+
+%runscript
+    # Default: run whatever the user passes. If nothing, drop into pixi shell.
+    if [ "$#" -eq 0 ]; then
+        exec bash
+    fi
+    exec "$@"
+
+%help
+    __PROJECT_SLUG__ dev-mode Apptainer image.
+
+    Dev mode means your source code is NOT inside this image. Bind-mount it
+    at run time:
+        apptainer run --bind .:/workspace dev.sif pixi run smoke
+
+    First time, inside the container, bootstrap the Pixi env:
+        pixi install
+
+    After that, iterate without rebuilding the SIF. Change code on host,
+    rerun:
+        apptainer run --bind .:/workspace dev.sif pixi run smoke
+
+    For GPU access on Alvis:
+        apptainer run --nv --bind .:/workspace dev.sif pixi run smoke

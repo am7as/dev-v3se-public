@@ -1,0 +1,37 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Pixi
+.pixi/
+
+# Virtualenvs
+.venv/
+venv/
+
+# Build + cache
+build/
+dist/
+.hf-cache/
+
+# Container artifacts
+*.sif
+
+# Runtime output
+results/
+slurm-*.out
+slurm-*.err
+
+# Editor
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

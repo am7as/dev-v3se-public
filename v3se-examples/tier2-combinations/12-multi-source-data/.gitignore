@@ -1,0 +1,17 @@
+.env
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.pixi/
+build/
+dist/
+.hf-cache/
+*.sif
+results/
+slurm-*.out
+slurm-*.err
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

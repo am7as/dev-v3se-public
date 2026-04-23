@@ -1,0 +1,23 @@
+Bootstrap: docker
+From: ghcr.io/prefix-dev/pixi:0.36.0-noble
+
+%environment
+    export PIXI_HOME=/opt/pixi
+    export PATH=/opt/pixi/bin:$PATH
+    export LC_ALL=C.UTF-8
+
+%post
+    apt-get update
+    apt-get install -y --no-install-recommends ca-certificates curl git tini
+    rm -rf /var/lib/apt/lists/*
+
+%runscript
+    [ "$#" -eq 0 ] && exec bash
+    exec "$@"
+
+%help
+    infer-hf dev SIF. Bind code + data + models at run time:
+        apptainer run --nv \
+            --bind .:/workspace \
+            --bind /mimer/NOBACKUP/Datasets/LLM/huggingface/hub:/opt/hf-hub:ro \
+            dev.sif pixi run infer --prompt "hello"

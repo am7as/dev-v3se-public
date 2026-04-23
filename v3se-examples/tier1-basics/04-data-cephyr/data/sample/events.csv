@@ -1,0 +1,5 @@
+event_id,sensor_id,severity
+e-001,s-01,low
+e-002,s-01,medium
+e-003,s-02,high
+e-004,s-03,low

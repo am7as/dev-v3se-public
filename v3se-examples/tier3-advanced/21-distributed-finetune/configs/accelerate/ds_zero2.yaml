@@ -1,0 +1,18 @@
+# DeepSpeed ZeRO-2: optimizer + gradient partitioned across GPUs; full model
+# weights stay on each GPU. Fastest when the model fits.
+compute_environment: LOCAL_MACHINE
+distributed_type: DEEPSPEED
+mixed_precision: bf16
+num_machines: 1
+num_processes: 4                # matches --gpus-per-node=A100:4
+main_training_function: main
+use_cpu: false
+rdzv_backend: static
+
+deepspeed_config:
+  gradient_accumulation_steps: auto
+  gradient_clipping: 1.0
+  offload_optimizer_device: none
+  offload_param_device: none
+  zero3_init_flag: false
+  zero_stage: 2

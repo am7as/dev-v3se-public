@@ -1,0 +1,22 @@
+services:
+  dev:
+    build:
+      context: ../../_shared/docker
+      dockerfile: Dockerfile.dev
+    image: dist-ft:dev
+    container_name: dist-ft-dev
+    working_dir: /workspace
+    env_file:
+      - .env
+    volumes:
+      - .:/workspace
+      - ${DATA_HOST:-../data}:/data
+      - ${RESULTS_HOST:-../results}:/results
+      - ${MODELS_HOST:-../models}:/models
+      - pixi_env:/workspace/.pixi
+    ports:
+      - "${JUPYTER_PORT:-7888}:7888"
+    command: sleep infinity
+
+volumes:
+  pixi_env:

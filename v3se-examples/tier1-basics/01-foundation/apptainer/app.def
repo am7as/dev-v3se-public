@@ -1,0 +1,60 @@
+Bootstrap: docker
+From: ghcr.io/prefix-dev/pixi:0.36.0-noble
+
+%labels
+    Template foundation
+    Mode     deployment (code baked in; self-contained SIF)
+
+%environment
+    export PIXI_HOME=/opt/pixi
+    export PATH=/opt/pixi/bin:$PATH
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+%files
+    # Copy the whole project into /workspace at build time.
+    # Build from the project root: apptainer build app.sif apptainer/app.def
+    pixi.toml         /workspace/pixi.toml
+    pyproject.toml    /workspace/pyproject.toml
+    README.md         /workspace/README.md
+    src               /workspace/src
+    scripts           /workspace/scripts
+    configs           /workspace/configs
+    tests             /workspace/tests
+
+%post
+    set -eux
+    apt-get update
+    apt-get install -y --no-install-recommends \
+        ca-certificates curl git tini
+    rm -rf /var/lib/apt/lists/*
+
+    # Resolve Pixi env once so the shipped SIF has its env pre-installed.
+    cd /workspace
+    pixi install
+
+%runscript
+    cd /workspace
+    if [ "$#" -eq 0 ]; then
+        exec pixi run smoke
+    fi
+    exec "$@"
+
+%help
+    foundation deployment SIF — self-contained, reproducible.
+
+    Build:
+        apptainer build app.sif apptainer/app.def
+
+    Run (all deps + code already inside):
+        apptainer run --nv app.sif                  # runs pixi run smoke
+        apptainer run --nv app.sif pixi run info    # or any other task
+
+    Bring your own data / results:
+        apptainer run --nv \
+            --bind /scratch/mydata:/data \
+            --bind /scratch/myresults:/results \
+            app.sif pixi run smoke
+
+    Secrets (API keys):
+        apptainer run --nv --bind ./.env:/workspace/.env app.sif ...

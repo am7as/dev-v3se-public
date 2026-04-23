@@ -1,0 +1,19 @@
+# =============================================================================
+# Logical dataset definitions. Tells the template what directory name to look
+# for under $DATA_DIR.
+#
+# The template ships "sample". Add more entries for your own data, then set
+# DATASET=<name> in .env or pass --source=<name> to `pixi run process`.
+# =============================================================================
+
+[sample]
+description = "Three tiny CSVs shipped with the template"
+subdir      = "sample"
+
+[private]
+description = "Your own data under /data (bind-mount /cephyr/... in sbatch)"
+subdir      = "."     # use $DATA_DIR root as-is
+
+[shared]
+description = "A read-only shared dataset (bind-mount /mimer/... in sbatch)"
+subdir      = "."

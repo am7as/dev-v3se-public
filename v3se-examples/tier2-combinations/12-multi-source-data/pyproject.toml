@@ -1,0 +1,15 @@
+[project]
+name            = "data-multi"
+version         = "0.1.0"
+description     = "V3SE template: multi-source data"
+readme          = "README.md"
+requires-python = ">=3.12"
+license         = { text = "MIT" }
+authors = [{ name = "v3se-template contributors", email = "noreply@example.com" }]
+
+[build-system]
+requires      = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/data_multi"]

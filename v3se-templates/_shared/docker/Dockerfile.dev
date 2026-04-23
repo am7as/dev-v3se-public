@@ -1,0 +1,34 @@
+# =============================================================================
+# Shared Dockerfile for template dev mode (laptop only).
+# Templates can reference this directly or copy it into their own docker/ folder
+# if they need to extend it.
+# =============================================================================
+# We mirror the Apptainer base image choice (Pixi + Debian) so dev behavior on
+# laptop matches Alvis as closely as possible.
+FROM ghcr.io/prefix-dev/pixi:0.36.0-noble
+
+ARG INSTALL_DEV_TOOLS=1
+
+ENV PIXI_HOME=/opt/pixi \
+    PATH=/opt/pixi/bin:$PATH \
+    LC_ALL=C.UTF-8 \
+    LANG=C.UTF-8 \
+    HF_HOME=/workspace/.hf-cache \
+    TRANSFORMERS_CACHE=/workspace/.hf-cache
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        ca-certificates curl git openssh-client rsync tini && \
+    if [ "$INSTALL_DEV_TOOLS" = "1" ]; then \
+        apt-get install -y --no-install-recommends \
+            build-essential less vim-tiny jq ; \
+    fi && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /workspace
+
+# Code is NOT copied — laptop dev mode bind-mounts the project at /workspace
+# via docker-compose.yml. See docs/container-modes.md.
+
+ENTRYPOINT ["tini", "--"]
+CMD ["bash"]

@@ -1,0 +1,9 @@
+# Declarative description of the architecture surgery.
+# The shipped example: replace the classification head.
+
+operation: replace_classification_head
+num_labels: 6          # number of classes in your target task
+freeze_base: false     # true = train only the new head; false = full finetune
+
+# To add instead of replace: see src/reco/surgery.py for the extension points.
+# Other supported operations are documented in docs/modification.md.

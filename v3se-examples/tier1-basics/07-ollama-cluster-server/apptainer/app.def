@@ -1,0 +1,26 @@
+Bootstrap: docker
+From: ghcr.io/prefix-dev/pixi:0.36.0-noble
+
+%files
+    pixi.toml         /workspace/pixi.toml
+    pyproject.toml    /workspace/pyproject.toml
+    README.md         /workspace/README.md
+    src               /workspace/src
+    scripts           /workspace/scripts
+    configs           /workspace/configs
+    tests             /workspace/tests
+
+%environment
+    export PIXI_HOME=/opt/pixi
+    export PATH=/opt/pixi/bin:$PATH
+    export LC_ALL=C.UTF-8
+    export LANG=C.UTF-8
+
+%post
+    apt-get update && apt-get install -y --no-install-recommends ca-certificates curl git tini && rm -rf /var/lib/apt/lists/*
+    cd /workspace && pixi install
+
+%runscript
+    cd /workspace
+    [ "$#" -eq 0 ] && exec pixi run smoke
+    exec "$@"

@@ -1,0 +1,41 @@
+# =============================================================================
+# __PROJECT_SLUG__ — laptop dev stack
+# =============================================================================
+# Host bind mounts are driven by .env (see DATA_HOST/RESULTS_HOST/MODELS_HOST).
+# Leave them blank in .env to use the sibling defaults defined below.
+# =============================================================================
+
+services:
+  dev:
+    build:
+      context: ./_shared/docker
+      dockerfile: Dockerfile.dev
+    image: __PROJECT_SLUG__:dev
+    container_name: __PROJECT_SLUG__-dev
+    working_dir: /workspace
+    env_file:
+      - .env
+    volumes:
+      # 1. Source code (dev mode — code lives on host, not in image)
+      - .:/workspace
+      # 2. Data / results / models. Defaults to siblings of this project.
+      - ${DATA_HOST:-../data}:/data
+      - ${RESULTS_HOST:-../results}:/results
+      - ${MODELS_HOST:-../models}:/models
+      # 3. Persistent pixi env — avoids re-solving on every container start
+      - pixi_env:/workspace/.pixi
+    ports:
+      - "${JUPYTER_PORT:-7888}:7888"
+    command: sleep infinity
+    # Uncomment to enable GPU (requires nvidia-container-toolkit on Linux host;
+    # on Windows use Docker Desktop + WSL2 GPU support).
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+volumes:
+  pixi_env:

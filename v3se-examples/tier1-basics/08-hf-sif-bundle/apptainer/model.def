@@ -1,0 +1,60 @@
+Bootstrap: docker
+From: nvidia/cuda:12.1.0-cudnn8-runtime-ubuntu22.04
+
+%labels
+    Name    hf-sif-bundle
+    Author  v3se-template contributors
+
+%post
+    set -e
+    apt-get update
+    apt-get install -y --no-install-recommends \
+        ca-certificates curl git python3 python3-pip python3-venv
+    rm -rf /var/lib/apt/lists/*
+
+    python3 -m pip install --no-cache-dir --upgrade pip
+    python3 -m pip install --no-cache-dir \
+        "torch==2.4.*" "transformers>=4.44" "accelerate>=0.34" \
+        "huggingface_hub[cli]>=0.24"
+
+    # Build-time args — set via `apptainer build --build-arg`.
+    # HF_MODEL is the repo id, e.g. google/gemma-2-2b-it.
+    # HF_TOKEN (optional) — only needed for gated models.
+    : "${HF_MODEL:=google/gemma-2-2b-it}"
+
+    mkdir -p /opt/model
+    if [ -n "${HF_TOKEN:-}" ]; then
+        huggingface-cli download "${HF_MODEL}" \
+            --local-dir /opt/model --local-dir-use-symlinks False \
+            --token "${HF_TOKEN}"
+    else
+        huggingface-cli download "${HF_MODEL}" \
+            --local-dir /opt/model --local-dir-use-symlinks False
+    fi
+
+    # Record what was baked in for later introspection.
+    echo "HF_MODEL=${HF_MODEL}" > /opt/model-metadata.txt
+    date >> /opt/model-metadata.txt
+
+%arguments
+    HF_MODEL=google/gemma-2-2b-it
+    HF_TOKEN=
+
+%environment
+    export MODEL_DIR=/opt/model
+    # local_files_only is enforced in code; this is defense in depth.
+    export HF_HUB_OFFLINE=1
+    export TRANSFORMERS_OFFLINE=1
+
+%runscript
+    exec python3 -c "from hf_sif_bundle.model import generate; import sys; print(generate(sys.argv[1])['text'])" "$@"
+
+%help
+    SIF with a HuggingFace model baked into /opt/model.
+    Build:
+        apptainer build --build-arg HF_MODEL=google/gemma-2-2b-it model.sif apptainer/model.def
+    Gated models:
+        apptainer build --build-arg HF_MODEL=meta-llama/Llama-3.1-8B \
+                        --build-arg HF_TOKEN=hf_xxx model.sif apptainer/model.def
+    Run:
+        apptainer run --nv model.sif "Hello world"
