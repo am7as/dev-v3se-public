@@ -112,6 +112,13 @@ code-server, or plain terminal on Alvis. No laptop-side code copy.
 └────────┘          └──────────────────┘
 ```
 
+```mermaid
+flowchart LR
+    laptop["<b>laptop</b><br/><i>thin client only</i>"]
+    alvis["<b>Alvis / Cephyr</b><br/>edit + build<br/>sbatch + monitor"]
+    laptop <-->|SSH| alvis
+```
+
 **Pros:** no sync step; one source of truth; editor speaks
 directly to the filesystem the jobs see.
 
@@ -133,6 +140,18 @@ Edit on laptop, push via rsync, run on cluster.
 └────────┘                   └──────────────────┘
 ```
 
+```mermaid
+flowchart LR
+    laptop["<b>laptop</b><br/>edit + smoke"]
+    cephyr["<b>Cephyr</b><br/><i>code</i>"]
+    mimer["<b>Mimer</b><br/><i>data</i>"]
+    alvis["<b>Alvis</b><br/><i>compute</i>"]
+    laptop -->|rsync code| cephyr
+    laptop -->|rsync data| mimer
+    mimer -->|rsync results| laptop
+    laptop -->|ssh sbatch| alvis
+```
+
 **Pros:** full local IDE; offline dev; laptop-side smoke tests.
 
 **Cons:** sync is a manual step; risk of drift; `.pixi/` accidents
@@ -150,6 +169,17 @@ Edit on laptop, `git push` to a remote (GitHub / GitLab / internal),
 │ smoke  │                  │  GitLab) │                  │                  │
 └────────┘                  └──────────┘                  │ Alvis (compute)  │
                                                          └──────────────────┘
+```
+
+```mermaid
+flowchart LR
+    laptop["<b>laptop</b><br/>edit + smoke"]
+    github["<b>git host</b><br/><i>GitHub / GitLab</i>"]
+    cephyr["<b>Cephyr</b><br/><i>cloned repo</i>"]
+    alvis["<b>Alvis</b><br/><i>compute</i>"]
+    laptop -->|git push| github
+    github -->|git pull| cephyr
+    cephyr --- alvis
 ```
 
 **Pros:** real version control; no drift; audit trail; integrates
@@ -178,6 +208,19 @@ The best of (b) and (c) for most real projects:
 │        │ <─ rsync ─│   results/           │
 │        │           └──────────────────────┘
 └────────┘
+```
+
+```mermaid
+flowchart LR
+    laptop["<b>laptop</b><br/>edit + smoke"]
+    github["<b>git host</b>"]
+    mimer["<b>Mimer</b><br/><i>data</i>"]
+    cluster["<b>Alvis login / Cephyr</b><br/>git pull<br/>build SIF<br/>sbatch<br/>tail -F"]
+    laptop -->|git push| github
+    laptop -->|rsync DATA| mimer
+    github --> cluster
+    mimer --> cluster
+    cluster -->|ssh + rsync results| laptop
 ```
 
 Steps, explicit:

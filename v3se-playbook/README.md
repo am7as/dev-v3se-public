@@ -47,8 +47,10 @@ bash/zsh (macOS/Linux). Each project template ships helper scripts
 
 | Topic | Doc |
 |-------|-----|
+| **First-time setup: SSH bootstrap (start here)** | [docs/ssh-bootstrap.md](docs/ssh-bootstrap.md) |
+| **Windows-specific gotchas (PS 5.x, OpenSSH, WSL)** | [docs/windows-onboarding.md](docs/windows-onboarding.md) |
 | Storage model (what goes where and why) | [docs/storage-model.md](docs/storage-model.md) |
-| **Transfer tools + 4 workflow patterns (ssh / sshfs / rsync / git)** | [docs/transfer-methods.md](docs/transfer-methods.md) |
+| Transfer tools + 4 workflow patterns (ssh / sshfs / rsync / git) | [docs/transfer-methods.md](docs/transfer-methods.md) |
 | Push: code to Cephyr, data to Mimer     | [docs/push-to-cluster.md](docs/push-to-cluster.md) |
 | Pull: results + artefacts back          | [docs/pull-from-cluster.md](docs/pull-from-cluster.md) |
 | Job lifecycle: sbatch, monitor, debug   | [docs/job-lifecycle.md](docs/job-lifecycle.md) |
