@@ -166,7 +166,7 @@ MODELS_HOST=
 # Cephyr (code) and Mimer (data / weights / results).
 CEPHYR_USER=<cid>
 CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/<project>
-CEPHYR_TRANSFER_HOST=vera2.c3se.chalmers.se
+CEPHYR_TRANSFER_HOST=alvis2.c3se.chalmers.se
 ALVIS_LOGIN_HOST=alvis2.c3se.chalmers.se
 ALVIS_ACCOUNT=<naiss-id>
 MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<naiss-id>
@@ -312,13 +312,13 @@ Copy your `.env` (never committed) from laptop to cluster.
 **PowerShell:**
 
 ```powershell
-scp .env <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/.env
+scp .env <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/.env
 ```
 
 **bash / zsh:**
 
 ```bash
-scp .env <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/.env
+scp .env <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/.env
 ```
 
 ### rsync (fallback — solo workflow, no remote)
@@ -338,7 +338,7 @@ bash ./_shared/scripts/sync-to-cephyr.sh
 ```
 
 It reads `CEPHYR_USER` / `CEPHYR_PROJECT_PATH` from `.env` and rsyncs
-the tree over `vera2.c3se.chalmers.se`, excluding `.git`, `.pixi`,
+the tree over `alvis2.c3se.chalmers.se`, excluding `.git`, `.pixi`,
 `results/`, and `models/`.
 
 ## 10. First sbatch submission on Alvis
@@ -397,7 +397,7 @@ From the laptop, pull `results/` back. The manifest files are tiny
 
 ```powershell
 rsync -avh --progress `
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/results/ `
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/results/ `
   .\results\
 ```
 
@@ -405,7 +405,7 @@ rsync -avh --progress `
 
 ```bash
 rsync -avh --progress \
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/results/ \
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/results/ \
   ./results/
 ```
 

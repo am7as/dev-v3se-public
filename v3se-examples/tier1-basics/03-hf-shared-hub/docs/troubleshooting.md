@@ -18,13 +18,13 @@ sources it:
 **PowerShell:**
 
 ```powershell
-scp .env <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/.env
+scp .env <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/.env
 ```
 
 **bash / zsh:**
 
 ```bash
-scp .env <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/.env
+scp .env <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/.env
 ssh alvis "grep HF_MODEL_SNAPSHOT /cephyr/users/<cid>/Alvis/<project>/.env"
 ```
 

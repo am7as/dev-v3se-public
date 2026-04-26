@@ -216,7 +216,7 @@ From laptop:
 
 ```powershell
 rsync -avh --progress `
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-hf-inference/results/ `
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-hf-inference/results/ `
   .\results\
 ```
 
@@ -224,7 +224,7 @@ rsync -avh --progress `
 
 ```bash
 rsync -avh --progress \
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-hf-inference/results/ \
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-hf-inference/results/ \
   ./results/
 ```
 

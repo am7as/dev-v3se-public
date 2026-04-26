@@ -224,13 +224,13 @@ Copy `.env` separately:
 **PowerShell:**
 
 ```powershell
-scp .env <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-data-multi/.env
+scp .env <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-data-multi/.env
 ```
 
 **bash / zsh:**
 
 ```bash
-scp .env <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-data-multi/.env
+scp .env <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-data-multi/.env
 ```
 
 ### 7b. rsync fallback
@@ -343,7 +343,7 @@ the dataset lands next to your project, not in `$HOME`.
 
 ```powershell
 rsync -avh --progress `
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-data-multi/results/ `
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-data-multi/results/ `
   .\results\
 ```
 
@@ -351,7 +351,7 @@ rsync -avh --progress `
 
 ```bash
 rsync -avh --progress \
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-data-multi/results/ \
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-data-multi/results/ \
   ./results/
 ```
 

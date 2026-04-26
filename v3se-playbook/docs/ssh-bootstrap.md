@@ -78,7 +78,7 @@ Host alvis
   ServerAliveCountMax 10
 
 Host cephyr-transfer
-  HostName vera2.c3se.chalmers.se
+  HostName alvis2.c3se.chalmers.se
   User <cid>
   IdentityFile ~/.ssh/id_ed25519_c3se
   ControlMaster auto
@@ -222,12 +222,12 @@ Expected output: a table of your Cephyr and Mimer usage. See
 
 ## 10. Vera for transfers (optional — do this if you use rsync)
 
-`vera2.c3se.chalmers.se` is the dedicated transfer host. Repeat steps
+`alvis2.c3se.chalmers.se` is the dedicated transfer host. Repeat steps
 5 and 6 against Vera so `rsync -avh alvis:<path> ./` and the
 `cephyr-transfer` alias work without password prompts.
 
 ```bash
-ssh-copy-id -i ~/.ssh/id_ed25519_c3se.pub <cid>@vera2.c3se.chalmers.se
+ssh-copy-id -i ~/.ssh/id_ed25519_c3se.pub <cid>@alvis2.c3se.chalmers.se
 ```
 
 Then:

@@ -4,14 +4,15 @@ version = "0.1.0"
 description = "V3SE template: HuggingFace model cloned once and baked into a SIF"
 authors = ["v3se-template contributors <noreply@example.com>"]
 channels = ["conda-forge"]
-platforms = ["linux-64", "win-64", "osx-arm64"]
+platforms = ["linux-64", "win-64"]
 
 [dependencies]
 python = "3.12.*"
 pip = "*"
+pytest = "*"
 
 [pypi-dependencies]
-infer_hf     = { path = ".", editable = true }
+hf_sif_bundle = { path = ".", editable = true }
 torch        = { version = ">=2.5", index = "https://download.pytorch.org/whl/cu121" }
 transformers = ">=4.46"
 accelerate   = "*"

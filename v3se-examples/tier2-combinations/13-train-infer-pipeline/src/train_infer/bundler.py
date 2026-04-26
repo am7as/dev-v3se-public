@@ -17,10 +17,12 @@ def build(adapter_dir: Path, base_model: str, out_sif: Path,
           tpl_path: Path | None = None) -> Path:
     tpl_path = tpl_path or (Path(__file__).resolve().parents[2] /
                              "apptainer" / "bundle.def.tpl")
-    if not tpl_path.exists():
-        raise FileNotFoundError(f"Bundle template not found: {tpl_path}")
+    # Adapter is the user-supplied input; check it first so the error
+    # surfaces the more actionable problem.
     if not adapter_dir.exists():
         raise FileNotFoundError(f"Adapter dir not found: {adapter_dir}")
+    if not tpl_path.exists():
+        raise FileNotFoundError(f"Bundle template not found: {tpl_path}")
 
     tpl = tpl_path.read_text()
     def_text = (

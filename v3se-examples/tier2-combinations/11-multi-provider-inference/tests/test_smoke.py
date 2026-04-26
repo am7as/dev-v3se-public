@@ -13,13 +13,16 @@ from infer_multi import config, providers, router
 
 # ---------- registry ----------
 
-def test_provider_registry_exposes_all_three():
-    """All three shipped providers (openai, claude_cli, vllm) register."""
-    assert set(providers.available()) == {"openai", "claude_cli", "vllm"}
+def test_provider_registry_exposes_all_six():
+    """All six shipped providers register: 2 cloud APIs + 1 CLI sub +
+    2 local servers + 1 cluster server."""
+    assert set(providers.available()) == {
+        "openai", "gemini", "claude_cli", "lmstudio", "ollama", "vllm",
+    }
 
 
 def test_provider_lookup_returns_module_with_matching_name():
-    for name in ("openai", "claude_cli", "vllm"):
+    for name in ("openai", "gemini", "claude_cli", "lmstudio", "ollama", "vllm"):
         mod = providers.get(name)
         assert mod.NAME == name
         assert hasattr(mod, "predict"), f"{name} missing predict()"
@@ -106,3 +109,27 @@ def test_claude_cli_raises_when_binary_missing(monkeypatch):
     monkeypatch.setenv("CLAUDE_CLI_PATH", "/nonexistent/claude-binary-xyz")
     with pytest.raises(RuntimeError, match="Claude CLI"):
         providers.get("claude_cli").predict("hi")
+
+
+def test_gemini_provider_raises_when_no_key(monkeypatch):
+    """gemini provider must fail loudly when neither GEMINI_API_KEY nor
+    GOOGLE_API_KEY is set — otherwise the SDK would 401 later."""
+    monkeypatch.delenv("GEMINI_API_KEY", raising=False)
+    monkeypatch.delenv("GOOGLE_API_KEY", raising=False)
+    with pytest.raises(RuntimeError, match="GEMINI_API_KEY"):
+        providers.get("gemini").predict("hi")
+
+
+def test_lmstudio_provider_raises_when_no_model(monkeypatch):
+    """lmstudio talks to a local server that doesn't validate keys, but
+    the SDK requires a model id — surface a clear error if unset."""
+    monkeypatch.delenv("LMSTUDIO_MODEL", raising=False)
+    with pytest.raises(RuntimeError, match="LMSTUDIO_MODEL"):
+        providers.get("lmstudio").predict("hi")
+
+
+def test_ollama_provider_raises_when_no_model(monkeypatch):
+    """ollama similarly needs a pulled model id."""
+    monkeypatch.delenv("OLLAMA_MODEL", raising=False)
+    with pytest.raises(RuntimeError, match="OLLAMA_MODEL"):
+        providers.get("ollama").predict("hi")

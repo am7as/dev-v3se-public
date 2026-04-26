@@ -4,11 +4,12 @@ version = "0.1.0"
 description = "V3SE template: LoRA finetune + bundle + inference pipeline"
 authors = ["v3se-template contributors <noreply@example.com>"]
 channels = ["conda-forge"]
-platforms = ["linux-64", "win-64", "osx-arm64"]
+platforms = ["linux-64", "win-64"]
 
 [dependencies]
 python = "3.12.*"
 pip = "*"
+pytest = "*"
 
 [pypi-dependencies]
 train_infer  = { path = ".", editable = true }

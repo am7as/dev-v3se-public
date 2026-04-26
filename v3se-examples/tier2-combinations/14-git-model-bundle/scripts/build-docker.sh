@@ -7,11 +7,20 @@
 
 set -euo pipefail
 
+# Snapshot caller-provided overrides BEFORE sourcing .env, so a shell
+# prefix (`MODEL_REPO=... bash scripts/build-docker.sh`) wins over .env.
+_caller_MODEL_REPO="${MODEL_REPO:-}"
+_caller_MODEL_REF="${MODEL_REF:-}"
+
 if [ -f .env ]; then
     set -a; . ./.env; set +a
 fi
 
-: "${MODEL_REPO:?Set MODEL_REPO in .env (git URL of the model repo)}"
+# Restore caller-provided values (precedence: shell exports > .env).
+[ -n "$_caller_MODEL_REPO" ] && MODEL_REPO="$_caller_MODEL_REPO"
+[ -n "$_caller_MODEL_REF" ] && MODEL_REF="$_caller_MODEL_REF"
+
+: "${MODEL_REPO:?Set MODEL_REPO in .env or pass MODEL_REPO=... before the command}"
 : "${MODEL_REF:=main}"
 TAG="${1:-git-model-bundle}"
 

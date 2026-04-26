@@ -14,8 +14,17 @@ set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 [ -f .env ] && { set -a; . ./.env; set +a; }
 
-export RESULTS_DIR="${RESULTS_DIR:-$PWD/results}"
-export HF_HOME="${HF_HOME:-$PWD/.hf-cache}"
+# Checkpoint trees + HF cache for 16–140 GB base models on 4× A100 will
+# blow Cephyr's 30 GiB / 60k-file quota in seconds. Pin both to Mimer
+# when running on Alvis. Laptop fallback preserves $PWD behaviour.
+if [ -n "${MIMER_PROJECT_PATH:-}" ]; then
+    export RESULTS_DIR="${RESULTS_DIR:-${MIMER_PROJECT_PATH}/results}"
+    export HF_HOME="${HF_HOME:-${MIMER_PROJECT_PATH}/.hf-cache}"
+else
+    echo "WARNING: MIMER_PROJECT_PATH unset — falling back to \$PWD. On Alvis this will hit the Cephyr quota." >&2
+    export RESULTS_DIR="${RESULTS_DIR:-$PWD/results}"
+    export HF_HOME="${HF_HOME:-$PWD/.hf-cache}"
+fi
 export TRANSFORMERS_CACHE="${TRANSFORMERS_CACHE:-$HF_HOME}"
 mkdir -p "$RESULTS_DIR" "$HF_HOME"
 

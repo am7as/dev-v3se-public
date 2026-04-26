@@ -70,7 +70,7 @@ Host alvis
   ControlPersist yes
 
 Host cephyr-transfer
-  HostName vera2.c3se.chalmers.se
+  HostName alvis2.c3se.chalmers.se
   User <cid>
 ```
 

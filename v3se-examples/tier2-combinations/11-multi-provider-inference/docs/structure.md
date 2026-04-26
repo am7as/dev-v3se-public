@@ -6,7 +6,7 @@
 ├── .env.example                env vars the template reads (per provider)
 ├── .gitignore
 ├── docker-compose.yml          laptop dev stack (with optional Claude CLI binds)
-├── pixi.toml                   pixi tasks + deps (openai, pyyaml)
+├── pixi.toml                   pixi tasks + deps (openai, google-genai, pyyaml)
 ├── pyproject.toml              Python packaging + wheel target
 ├── apptainer/
 │   ├── dev.def                 dev SIF (code bind-mounted in) — laptop + Alvis
@@ -23,8 +23,11 @@
 │   ├── router.py               provider name → `predict()` dispatcher
 │   └── providers/
 │       ├── __init__.py         registry: get(name), available()
-│       ├── openai_api.py       api-token flow (OpenAI / Azure / LM Studio / Ollama)
+│       ├── openai_api.py       OpenAI / Azure cloud API
+│       ├── gemini.py           Google Gemini via the unified `google-genai` SDK
 │       ├── claude_cli.py       CLI-subscription flow (`claude --print`)
+│       ├── lmstudio.py         LM Studio local server (laptop or Alvis via 06)
+│       ├── ollama.py           Ollama local server (laptop or Alvis via 07)
 │       └── vllm.py             vLLM OpenAI-compatible server client (reads port file)
 ├── slurm/
 │   ├── infer-cpu.sbatch        CPU-only client job (API-token / CLI paths)

@@ -83,7 +83,7 @@ MODELS_HOST=
 # Cephyr (code) + Alvis login.
 CEPHYR_USER=<cid>
 CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-lora-finetune
-CEPHYR_TRANSFER_HOST=vera2.c3se.chalmers.se
+CEPHYR_TRANSFER_HOST=alvis2.c3se.chalmers.se
 ALVIS_LOGIN_HOST=alvis2.c3se.chalmers.se
 ALVIS_ACCOUNT=<naiss-id>
 MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<naiss-id>
@@ -325,7 +325,7 @@ the laptop.
 
 ```powershell
 rsync -avh --progress `
-  <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-lora-finetune/adapters/ `
+  <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-lora-finetune/adapters/ `
   .\results\adapters\
 ```
 
@@ -333,7 +333,7 @@ rsync -avh --progress `
 
 ```bash
 rsync -avh --progress \
-  <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-lora-finetune/adapters/ \
+  <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-lora-finetune/adapters/ \
   ./results/adapters/
 ```
 

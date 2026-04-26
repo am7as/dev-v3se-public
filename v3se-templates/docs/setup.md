@@ -168,7 +168,7 @@ Look for:
 ```powershell
 # On laptop, from project root:
 rsync -avh --progress \
-    <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/__PROJECT_SLUG__/results/ \
+    <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/__PROJECT_SLUG__/results/ \
     .\results-from-alvis\
 ```
 

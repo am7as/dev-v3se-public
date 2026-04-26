@@ -65,7 +65,7 @@ Host alvis
     ControlPersist  10m
 
 Host cephyr-transfer
-    HostName        vera2.c3se.chalmers.se
+    HostName        alvis2.c3se.chalmers.se
     User            <cid>
     IdentityFile    ~/.ssh/id_ed25519_c3se
     ControlMaster   auto

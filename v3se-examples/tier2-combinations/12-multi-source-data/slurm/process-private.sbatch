@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-# Private Cephyr data. Edit the bind to your own directory.
+# Your own writable data, bound into /data. Defaults to Mimer
+# (`mimer_project` allocation) — Cephyr's 30 GiB / 60k-file cap is
+# too small for real datasets. Override PRIVATE_PATH to point at a
+# Cephyr dir if you need that for tiny configs only.
 #SBATCH --account=<PROJECT_ID>
 #SBATCH --partition=alvis
 #SBATCH --job-name=data-multi-private
@@ -18,7 +21,10 @@ mkdir -p "$RESULTS_DIR"
 SIF="${SIF:-./dev.sif}"
 [ -f "$SIF" ] || { echo "Missing $SIF" >&2; exit 1; }
 
-PRIVATE="${PRIVATE_PATH:-/cephyr/users/$USER/Alvis/my-data}"
+# Default path follows the `mimer_project` example in configs/sources.yaml.
+# `<naiss-id>` and `<cid>` are placeholders — set PRIVATE_PATH or .env to
+# your real Mimer allocation before submitting.
+PRIVATE="${PRIVATE_PATH:-/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-data}"
 
 apptainer run --bind .:/workspace \
     --bind "$PRIVATE":/data \

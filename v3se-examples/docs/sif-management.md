@@ -67,7 +67,7 @@ binaries. Either build in place on the cluster, or use the cluster's
 transfer node (vera2) for one-shot transfers:
 
 ```bash
-scp my-model.sif <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/
+scp my-model.sif <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/
 ```
 
 ### Use
@@ -143,7 +143,7 @@ apptainer build -F dev.sif apptainer/dev.def
 
 ```powershell
 # Transfer
-scp dev.sif <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-project/
+scp dev.sif <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-project/
 ```
 
 ## Quota math: what fits in 30 GiB

@@ -290,7 +290,7 @@ deployment.
 
 ```powershell
 rsync -avh --progress `
-  "<cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-dist-ft/results/" `
+  "<cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-dist-ft/results/" `
   .\results\
 ```
 
@@ -298,7 +298,7 @@ rsync -avh --progress `
 
 ```bash
 rsync -avh --progress \
-  "<cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-dist-ft/results/" \
+  "<cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-dist-ft/results/" \
   ./results/
 ```
 

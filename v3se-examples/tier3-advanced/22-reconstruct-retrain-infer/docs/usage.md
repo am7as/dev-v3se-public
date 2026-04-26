@@ -340,9 +340,10 @@ accuracy ≈ 0.92.
 
 ### Stage 4 — bundle into a deployable SIF (CPU, ~30 min)
 
-`slurm/bundle.sbatch` generates an Apptainer definition on the fly
-that copies `pixi.toml`, source, configs and the trained checkpoint
-into `/opt/model` inside a fresh SIF, and builds it:
+`slurm/bundle.sbatch` renders `apptainer/bundle.def.tpl` (substituting
+the host workspace + checkpoint paths) into a per-build `.def`, then
+copies `pixi.toml`, source, configs and the trained checkpoint into
+`/opt/model` inside a fresh SIF, and builds it:
 
 ```
 #SBATCH --time=0-00:30:00
@@ -356,7 +357,9 @@ Run:
 sbatch --export=ALL,CKPT=$CKPT slurm/bundle.sbatch
 ```
 
-Output: `$PWD/results/bundles/reco-<ts>.sif`. The SIF's `%runscript`
+Output: `$BUNDLE_DIR/reco-<ts>.sif` — defaults to
+`$MIMER_PROJECT_PATH/results/bundles/` on Alvis (or `$PWD/results/bundles/`
+on laptop with a warning). The SIF's `%runscript`
 invokes `pixi run eval --ckpt /opt/model "$@"`, so any downstream user
 can:
 
@@ -375,11 +378,11 @@ surgeried weights and raw checkpoint shards on Mimer.
 
 ```powershell
 rsync -avh --progress `
-  "<cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-reco/results/eval_report.json" `
+  "<cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-reco/results/eval_report.json" `
   .\results\
 
 rsync -avh --progress `
-  "<cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-reco/results/bundles/" `
+  "<cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-reco/results/bundles/" `
   .\results\bundles\
 ```
 
@@ -387,11 +390,11 @@ rsync -avh --progress `
 
 ```bash
 rsync -avh --progress \
-  "<cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-reco/results/eval_report.json" \
+  "<cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-reco/results/eval_report.json" \
   ./results/
 
 rsync -avh --progress \
-  "<cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-reco/results/bundles/" \
+  "<cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-reco/results/bundles/" \
   ./results/bundles/
 ```
 

@@ -1,8 +1,15 @@
 """Run inference on any configured provider.
 
-    pixi run infer --provider openai     --prompt "hi"
-    pixi run infer --provider claude_cli --prompt "hi"
-    pixi run infer --provider vllm       --prompt "hi"
+    Cloud APIs:
+        pixi run infer --provider openai     --prompt "hi"
+        pixi run infer --provider gemini     --prompt "hi"
+    CLI subscription:
+        pixi run infer --provider claude_cli --prompt "hi"
+    Local servers (OpenAI-compatible HTTP):
+        pixi run infer --provider lmstudio   --prompt "hi"
+        pixi run infer --provider ollama     --prompt "hi"
+    Cluster server:
+        pixi run infer --provider vllm       --prompt "hi"
 """
 from __future__ import annotations
 

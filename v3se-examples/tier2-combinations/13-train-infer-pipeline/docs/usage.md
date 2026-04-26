@@ -202,13 +202,13 @@ Copy `.env`:
 **PowerShell:**
 
 ```powershell
-scp .env <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-train-infer/.env
+scp .env <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-train-infer/.env
 ```
 
 **bash / zsh:**
 
 ```bash
-scp .env <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-train-infer/.env
+scp .env <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-train-infer/.env
 ```
 
 ### 7b. rsync fallback
@@ -361,7 +361,7 @@ No code change.
 
 ```powershell
 rsync -avh --progress `
-  <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-train-infer/results/ `
+  <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-train-infer/results/ `
   .\results\
 ```
 
@@ -369,7 +369,7 @@ rsync -avh --progress `
 
 ```bash
 rsync -avh --progress \
-  <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-train-infer/results/ \
+  <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-train-infer/results/ \
   ./results/
 ```
 

@@ -18,7 +18,7 @@ fi
 
 : "${CEPHYR_USER:?Set CEPHYR_USER in .env}"
 : "${CEPHYR_PROJECT_PATH:?Set CEPHYR_PROJECT_PATH in .env}"
-: "${CEPHYR_TRANSFER_HOST:=vera2.c3se.chalmers.se}"
+: "${CEPHYR_TRANSFER_HOST:=alvis2.c3se.chalmers.se}"
 
 SRC="${CEPHYR_USER}@${CEPHYR_TRANSFER_HOST}:${CEPHYR_PROJECT_PATH}"
 

@@ -72,7 +72,7 @@ docker run --gpus all -v "$PWD":/workspace <project>-bundle pixi run infer --pro
 
 ```bash
 # If built on laptop, rsync the single .sif file:
-scp bundle.sif <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/sifs/
+scp bundle.sif <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/sifs/
 
 ssh <cid>@alvis2.c3se.chalmers.se
 cd /cephyr/users/<cid>/Alvis/14-git-model-bundle

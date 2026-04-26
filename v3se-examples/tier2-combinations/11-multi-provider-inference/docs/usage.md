@@ -1,17 +1,24 @@
 # Usage — `11-multi-provider-inference` (step-by-step, zero to results)
 
 A complete walkthrough from an empty folder to a working multi-provider
-inference pipeline: one `pixi run infer` entrypoint driving three
-distinct backends — an OpenAI-compatible **API token**, a **CLI
-subscription** (Claude Code / Gemini CLI), and a **vLLM server** launched
-as a separate Slurm job. Picking the provider is a config knob, not a
-code change; the return shape (`{text, raw, model, usage}`) is identical
-everywhere.
+inference pipeline: one `pixi run infer` entrypoint driving **six**
+distinct backends across four flavors — two cloud APIs (`openai`,
+`gemini`), one CLI-subscription (`claude_cli`), two laptop / cluster
+local servers (`lmstudio`, `ollama`), and a cluster-side vLLM A100
+server (`vllm`). Picking the provider is a config knob
+(`DEFAULT_PROVIDER` in `.env`, or `--provider X` at the CLI), not a
+code change; the return shape (`{text, raw, model, usage}`) is
+identical everywhere.
 
 ## 1. What you'll end up with
 
-- Laptop dev loop where `pixi run infer --provider openai|claude_cli|vllm`
-  all work against the same code.
+- Laptop dev loop where any of these works against the same code:
+    - `pixi run infer --provider openai     --prompt "..."`
+    - `pixi run infer --provider gemini     --prompt "..."`
+    - `pixi run infer --provider claude_cli --prompt "..."`
+    - `pixi run infer --provider lmstudio   --prompt "..."`  (LM Studio on host port 1234)
+    - `pixi run infer --provider ollama     --prompt "..."`  (Ollama on host port 11434)
+    - `pixi run infer --provider vllm       --prompt "..."`  (laptop test against any OpenAI-compatible URL)
 - On Alvis: one `sbatch slurm/vllm-server.sbatch` that holds a GPU and
   writes `vllm-host.txt` + `vllm-port.txt` to `$RESULTS_DIR`, plus
   `sbatch slurm/infer-cpu.sbatch` that reads those files and calls the
@@ -70,7 +77,8 @@ Copy-Item .env.example .env
 cp .env.example .env
 ```
 
-Edit `.env`. The provider-specific blocks are what matters:
+Edit `.env`. Each provider has its own labeled block; fill the ones
+you'll actually use, leave the rest blank.
 
 ```ini
 CEPHYR_USER=<cid>
@@ -78,18 +86,41 @@ CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-infer-multi
 MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<naiss-id>
 MIMER_PROJECT_PATH=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-infer-multi
 
-# Default when --provider is omitted:
+# Default when --provider is omitted (one of: openai, gemini,
+# claude_cli, lmstudio, ollama, vllm):
 DEFAULT_PROVIDER=openai
 
-# ---- openai (also used for LM Studio / Ollama / local vLLM) ----
+# === Cloud APIs ===
+
+# ---- openai ----
 OPENAI_API_KEY=sk-...
 OPENAI_MODEL=gpt-4o-mini
-# OPENAI_BASE_URL=http://host.docker.internal:1234/v1   # LM Studio
-# OPENAI_BASE_URL=http://host.docker.internal:11434/v1  # Ollama
+# OPENAI_BASE_URL=                # set only for Azure OpenAI
 
-# ---- claude_cli (CLI subscription) ----
+# ---- gemini ----
+GEMINI_API_KEY=AIza...            # https://aistudio.google.com/apikey
+GEMINI_MODEL=gemini-2.5-flash     # free-tier; gemini-flash-latest also works
+# Gemini 2.5 charges hidden chain-of-thought tokens by default;
+# set =0 to disable (cheapest), =-1 for unlimited (default), >0 to cap.
+GEMINI_THINKING_BUDGET=
+
+# === CLI subscription ===
+
+# ---- claude_cli ----
 CLAUDE_CLI_PATH=claude
 CLAUDE_MODEL=claude-sonnet-4-6
+
+# === Local servers (OpenAI-compatible HTTP) ===
+
+# ---- lmstudio ----
+LMSTUDIO_BASE_URL=http://host.docker.internal:1234/v1
+LMSTUDIO_MODEL=google/gemma-4-e4b   # exact id from LM Studio's Loaded Models list
+
+# ---- ollama ----
+OLLAMA_BASE_URL=http://host.docker.internal:11434/v1
+OLLAMA_MODEL=llama3.2:1b            # whatever you've `ollama pull`ed
+
+# === Cluster server ===
 
 # ---- vllm (host/port come from the server job at runtime) ----
 VLLM_MODEL=google/gemma-2-9b-it
@@ -146,11 +177,23 @@ at least `openai: ok` if you set `OPENAI_API_KEY`. Then run one real
 inference per reachable provider:
 
 ```bash
-docker compose exec dev pixi run infer --provider openai     --prompt "hi"
+# Cloud APIs
+docker compose exec dev pixi run infer --provider openai --prompt "hi"
+docker compose exec dev pixi run infer --provider gemini --prompt "hi"
+
+# CLI-subscription (needs ~/.claude bind-mount — see §4)
 docker compose exec dev pixi run infer --provider claude_cli --prompt "hi"
-# vLLM: point VLLM_HOST/VLLM_PORT at LM Studio or Ollama for laptop tests
-docker compose exec dev pixi run infer --provider vllm       --prompt "hi"
+
+# Local servers (start the server on host first, set <PROVIDER>_MODEL in .env)
+docker compose exec dev pixi run infer --provider lmstudio --prompt "hi"
+docker compose exec dev pixi run infer --provider ollama   --prompt "hi"
+
+# vLLM (laptop): point VLLM_HOST/VLLM_PORT at any OpenAI-compatible server
+docker compose exec dev pixi run infer --provider vllm     --prompt "hi"
 ```
+
+Override the model per-call with `--model <id>` (otherwise the provider's
+`*_MODEL` env var is used).
 
 Each call appends to `results/responses/<provider>__<ts>.json`.
 
@@ -195,13 +238,13 @@ Copy `.env` separately (never committed):
 **PowerShell:**
 
 ```powershell
-scp .env <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-infer-multi/.env
+scp .env <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-infer-multi/.env
 ```
 
 **bash / zsh:**
 
 ```bash
-scp .env <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-infer-multi/.env
+scp .env <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-infer-multi/.env
 ```
 
 ### 7b. rsync fallback
@@ -225,9 +268,9 @@ excludes `.pixi/`, `results/`, `*.sif`, `.env`.
 
 ```bash
 rsync -avh ~/.claude \
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/.claude/
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/.claude/
 rsync -avh ~/.claude.json \
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/.claude.json
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/.claude.json
 ```
 
 These stay under your **personal** Cephyr root, never on a shared
@@ -350,7 +393,7 @@ Then with the tunnel open, point the laptop client at
 
 ```powershell
 rsync -avh --progress `
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-infer-multi/results/ `
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-infer-multi/results/ `
   .\results\
 ```
 
@@ -358,7 +401,7 @@ rsync -avh --progress `
 
 ```bash
 rsync -avh --progress \
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-infer-multi/results/ \
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-infer-multi/results/ \
   ./results/
 ```
 

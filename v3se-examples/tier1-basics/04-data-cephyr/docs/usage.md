@@ -78,7 +78,7 @@ MODELS_HOST=
 # Cephyr (code) + Alvis login.
 CEPHYR_USER=<cid>
 CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-data-project
-CEPHYR_TRANSFER_HOST=vera2.c3se.chalmers.se
+CEPHYR_TRANSFER_HOST=alvis2.c3se.chalmers.se
 ALVIS_LOGIN_HOST=alvis2.c3se.chalmers.se
 ALVIS_ACCOUNT=<naiss-id>
 
@@ -184,7 +184,7 @@ Or directly via rsync:
 ```powershell
 rsync -avh --progress `
   .\my-local-data\ `
-  <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-data-project/raw/
+  <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-data-project/raw/
 ```
 
 **bash / zsh:**
@@ -192,7 +192,7 @@ rsync -avh --progress `
 ```bash
 rsync -avh --progress \
   ./my-local-data/ \
-  <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-data-project/raw/
+  <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-data-project/raw/
 ```
 
 ## 8. Cluster setup
@@ -304,7 +304,7 @@ Mimer — it's the same SSH transfer host:
 
 ```powershell
 rsync -avh --progress `
-  <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-data-project/results/ `
+  <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-data-project/results/ `
   .\results\
 ```
 
@@ -312,7 +312,7 @@ rsync -avh --progress `
 
 ```bash
 rsync -avh --progress \
-  <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-data-project/results/ \
+  <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-data-project/results/ \
   ./results/
 ```
 

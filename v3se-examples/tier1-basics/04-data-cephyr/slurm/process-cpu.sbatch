@@ -24,9 +24,15 @@ SIF="${SIF:-./dev.sif}"
 # A) Default: use the sample data shipped with the repo
 # apptainer run --bind .:/workspace "$SIF" pixi run process --source sample
 #
-# B) Private Cephyr data
+# B) Your own private data on Mimer (preferred — Cephyr's 30 GiB / 60k-file
+#    cap is too small for real datasets; use it only for tiny configs)
 # apptainer run --bind .:/workspace \
-#     --bind /cephyr/users/$USER/Alvis/my-data:/data \
+#     --bind /mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-data:/data \
+#     "$SIF" pixi run process --source private
+#
+# B') Same flow, but data still lives on Cephyr (only viable for KB–MB inputs)
+# apptainer run --bind .:/workspace \
+#     --bind /cephyr/users/<cid>/Alvis/my-configs:/data \
 #     "$SIF" pixi run process --source private
 #
 # C) Shared /mimer dataset (read-only)

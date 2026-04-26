@@ -34,7 +34,7 @@ are in play: **Cephyr** (code), **Mimer** (data/weights/results), and
      ControlPersist yes
 
    Host cephyr-transfer
-     HostName vera2.c3se.chalmers.se
+     HostName alvis2.c3se.chalmers.se
      User <cid>
    ```
 4. **On Cephyr**, create a workspace:
@@ -86,7 +86,7 @@ Or manually:
 rsync -avh --progress --delete \
   --exclude='.pixi/' --exclude='__pycache__/' --exclude='.venv/' \
   --exclude='results/' --exclude='*.sif' \
-  ./  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-project/
+  ./  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-project/
 ```
 
 Exclusions matter:
@@ -133,7 +133,7 @@ Small results (logs, manifests) sit on Cephyr alongside the code:
 
 ```bash
 rsync -avh --progress \
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-project/results/ \
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-project/results/ \
   ./results/
 ```
 
@@ -141,7 +141,7 @@ Big artefacts (checkpoints, trained weights, evaluation dumps) live on Mimer:
 
 ```bash
 rsync -avh --progress \
-  <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/<project>/checkpoints/ \
+  <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/<project>/checkpoints/ \
   ./checkpoints/
 ```
 

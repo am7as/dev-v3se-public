@@ -38,7 +38,7 @@
 
 ### `apptainer/dev.def` and `apptainer/app.def`
 
-Both start from `ghcr.io/prefix-dev/pixi:0.36.0-noble`. `dev.def` installs
+Both start from `ghcr.io/prefix-dev/pixi:0.48.0-noble`. `dev.def` installs
 only system tools (`curl`, `git`, `openssh-client`, `rsync`, `tini`) and
 expects your project bind-mounted at `/workspace` at run time — edit on
 the host, rerun, no rebuild. `app.def` copies `src/` + `scripts/` +

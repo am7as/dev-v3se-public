@@ -1,6 +1,10 @@
 # Modification — `11-multi-provider-inference`
 
-## Add a fourth provider
+## Add a seventh provider
+
+The shipped registry has six (`openai`, `gemini`, `claude_cli`,
+`lmstudio`, `ollama`, `vllm`). Adding another follows the same five
+steps. Example for Anthropic's API directly:
 
 1. `src/infer_multi/providers/anthropic.py`:
    ```python
@@ -50,7 +54,8 @@ for prompt in prompts:
 
 ## What NOT to change
 
-- `predict()` return shape `{text, raw, model, usage}`. All three
+- `predict()` return shape `{text, raw, model, usage}`. All six shipped
   providers match it.
-- Env-var names that are in `providers/*.py`.
+- Env-var names declared in each `providers/*.py` (e.g. `OPENAI_API_KEY`,
+  `GEMINI_THINKING_BUDGET`, `LMSTUDIO_BASE_URL`).
 - Container paths (`/data`, `/results`, `/models`).

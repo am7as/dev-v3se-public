@@ -10,7 +10,8 @@
 ├── pyproject.toml              Python packaging + wheel target
 ├── apptainer/
 │   ├── dev.def                 dev SIF — used for surgery + train + eval
-│   └── app.def                 deployment SIF (code baked, no weights)
+│   ├── app.def                 deployment SIF (code baked, no weights)
+│   └── bundle.def.tpl          template for per-checkpoint deployment SIF (rendered by bundle.sbatch)
 ├── configs/
 │   ├── surgery.yaml            declarative surgery spec (operation + num_labels + …)
 │   └── accelerate/
@@ -34,7 +35,7 @@
 │   ├── surgery.sbatch          CPU-only (20 min) — surgery is structural, not compute-bound
 │   ├── train.sbatch            1× T4 retrain (4 h / 32 G / accelerate)
 │   ├── eval.sbatch             1× T4 eval (30 min / 16 G)
-│   └── bundle.sbatch           CPU (30 min) — heredoc `.def` → standalone SIF
+│   └── bundle.sbatch           CPU (30 min) — renders `bundle.def.tpl` → standalone SIF
 ├── tests/
 │   └── test_smoke.py           pytest — config + surgery yaml parse + import smoke
 └── docs/
@@ -98,18 +99,22 @@ configs/accelerate/${ACCELERATE_CONFIG:-single}.yaml scripts/train.py
 Runs the evaluation script which uses a `pipeline("text-classification",
 …)` plus sklearn metrics, producing `$RESULTS_DIR/eval_report.json`.
 
-### `slurm/bundle.sbatch`
+### `slurm/bundle.sbatch` and `apptainer/bundle.def.tpl`
 
-30-minute CPU-only job. **Unlike `13-train-infer-pipeline`, this
-template generates the `.def` inline via heredoc** — no `.def.tpl`
-file. Takes `CKPT=/path/to/checkpoint`, writes
-`/tmp/reco-bundle-<ts>.def`, runs `apptainer build $OUT /tmp/....def`.
-The bundle copies the full checkpoint into `/opt/model` and
-`HF_MODEL_SNAPSHOT` points at it. Output at
-`$PWD/results/bundles/reco-<ts>.sif` — **note** this path default
-doesn't go through `$RESULTS_DIR`; in practice on Alvis the bundled
-SIF belongs on Mimer and you should edit this sbatch to point at
-`$MIMER_PROJECT_PATH/bundles/` before first real use.
+30-minute CPU-only job. Mirrors 13's file-based pattern: takes
+`CKPT=/path/to/checkpoint`, renders `apptainer/bundle.def.tpl` →
+`$BUNDLE_DIR/reco-<ts>.def` via `sed` (substituting `__WORKSPACE_PATH__`
+and `__CKPT_PATH__`), then runs `apptainer build $OUT $DEF`. The
+bundle copies the full checkpoint into `/opt/model` and
+`HF_MODEL_SNAPSHOT` points at it; runs fully offline
+(`HF_HUB_OFFLINE=1`).
+
+`BUNDLE_DIR` defaults to `$MIMER_PROJECT_PATH/results/bundles/` when
+that variable is set, falling back to `$PWD/results/bundles/` with a
+loud warning. Bundled SIFs are 20–100 GB — Cephyr's 30 GiB cap won't
+hold even one, so the Mimer default is mandatory on Alvis. Override
+with `BUNDLE_DIR=/some/path` if you need a different location. The
+rendered `.def` is kept alongside the SIF for reproducibility.
 
 ### `src/reco/config.py`
 
@@ -168,7 +173,7 @@ Four distinct persisted artefacts, each with its own size profile:
 | Surgeried model dir  | ~size of base     | `surgery.sbatch`  | **Mimer project** (`$RESULTS_DIR/surgeried/<ts>/`) |
 | Training checkpoint  | ~size of base     | `train.sbatch`    | **Mimer project** (`$RESULTS_DIR/checkpoints/<ts>/`) |
 | Eval report JSON     | KB                | `eval.sbatch`     | **Mimer project** (`$RESULTS_DIR/eval_report.json`) |
-| Bundled SIF          | ~size of base + pixi env | `bundle.sbatch` | **Mimer project** (after you fix the default path) |
+| Bundled SIF          | ~size of base + pixi env | `bundle.sbatch` | **Mimer project** (`$BUNDLE_DIR` → `$MIMER_PROJECT_PATH/results/bundles/`) |
 
 A distilbert-base-uncased surgery cycle (the shipped example):
 surgeried dir ~260 MB, checkpoint ~260 MB × 2 (save_total_limit=2),
@@ -200,14 +205,15 @@ eval report ~10 KB, bundle SIF ~2 GB. All manageable. Scale up to a
 - **Eval sbatch**: reads one specific checkpoint, writes one
   eval report.
 - **Bundle sbatch**: copies a checkpoint tree into a new SIF at
-  build time. **Watch the default output path** (`$PWD/results/bundles/`)
-  — edit to `$MIMER_PROJECT_PATH/bundles/` before real use, matching
-  the pattern in `13-train-infer-pipeline`.
-- **Neither `train.sbatch` nor `surgery.sbatch` has an explicit
-  Mimer branch** (unlike `05` / `13`). Both default `HF_HOME` /
-  `RESULTS_DIR` to `$PWD/...` — safe on laptop, dangerous on Alvis.
-  Set both explicitly in `.env` before submission (mirror the
-  pattern in `21-distributed-finetune/docs/structure.md`).
+  build time. Output dir branches on `MIMER_PROJECT_PATH`: when set,
+  bundles land at `$MIMER_PROJECT_PATH/results/bundles/`; otherwise
+  falls back to `$PWD/results/bundles/` with a loud warning. Override
+  with `BUNDLE_DIR=/some/path` if needed.
+- **`train.sbatch` + `surgery.sbatch` Mimer-branch** the same way as
+  `05` / `13`: when `MIMER_PROJECT_PATH` is set, `RESULTS_DIR` and
+  `HF_HOME` default to `$MIMER_PROJECT_PATH/...`; otherwise they fall
+  back to `$PWD/...` with a warning that's harmless on laptop and
+  loud on Alvis.
 
 ## Design invariants
 
@@ -223,7 +229,7 @@ eval report ~10 KB, bundle SIF ~2 GB. All manageable. Scale up to a
 - **Four sbatches, one pipeline.** `surgery` → `train` → `eval` →
   `bundle`. Each consumes the previous's output path; all outputs
   live on Mimer.
-- **Bundle default path is a known bug.** The shipped `bundle.sbatch`
-  writes to `$PWD/results/bundles/` — fine on laptop, wrong on
-  Alvis. Override before production use. The library audit
-  (`_checklist/`) tracks this.
+- **All four sbatches Mimer-branch their outputs.** `BUNDLE_DIR` for
+  `bundle.sbatch`; `RESULTS_DIR` + `HF_HOME` for `surgery` / `train` /
+  `eval`. Each falls back to `$PWD` only when `MIMER_PROJECT_PATH` is
+  unset (laptop case), with a warning that fires on Alvis.

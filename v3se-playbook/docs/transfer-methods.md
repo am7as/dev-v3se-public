@@ -4,6 +4,20 @@ How you actually move bits between laptop and cluster. Four tools do
 all the work, plus four end-to-end workflow patterns — pick the one
 that fits.
 
+## Which transfer host? (Alvis vs Vera)
+
+C3SE provides two hosts that can reach Cephyr and Mimer:
+
+| Host                          | Who can use it                | Speed for bulk transfers |
+|-------------------------------|-------------------------------|--------------------------|
+| `alvis2.c3se.chalmers.se`     | **everyone with Alvis access** | adequate                 |
+| `vera2.c3se.chalmers.se`      | only users with a Vera project | faster (dedicated transfer node) |
+
+The templates default to **`alvis2`** because it works universally.
+If you have a Vera project, swap the host in your rsync commands (or
+edit one line in your `~/.ssh/config` — see below) to use `vera2`
+instead. Functionally identical; just faster.
+
 ## The four tools
 
 | Tool   | Purpose                                          | Strengths                                          | Weaknesses                                         |
@@ -48,8 +62,12 @@ Host alvis
   ServerAliveInterval 60
   ServerAliveCountMax 10
 
+# Transfer alias — defaults to alvis2 (works for everyone with Alvis
+# access). If you have a Vera project, change HostName to
+# `vera2.c3se.chalmers.se` for higher rsync throughput; nothing else
+# in the templates needs to change.
 Host cephyr-transfer
-  HostName vera2.c3se.chalmers.se
+  HostName alvis2.c3se.chalmers.se
   User <cid>
   ControlMaster auto
   ControlPath ~/.ssh/control-%r@%h:%p
@@ -279,11 +297,11 @@ Back on laptop (another terminal or after `ssh` disconnect):
 
 ```bash
 rsync -avh --progress \
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/results/ \
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/results/ \
   ./results/
 
 rsync -avh --progress \
-  <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/<project>/checkpoints/ \
+  <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/<project>/checkpoints/ \
   ./checkpoints/
 
 git add results/summary.json && git commit -m "run 2026-04-21" && git push

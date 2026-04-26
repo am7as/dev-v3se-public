@@ -22,7 +22,7 @@ non-negotiables, so you can switch between them without re-learning:
 - Every `*.sbatch` has `#SBATCH --account=<PROJECT_ID>` (placeholder).
 - Container paths are fixed: `/workspace`, `/data`, `/results`, `/models`.
 - Env-driven host paths: `${DATA_HOST:-…}` defaults.
-- Transfer hosts: `vera2.c3se.chalmers.se` / `alvis2.c3se.chalmers.se`.
+- Transfer hosts: `alvis2.c3se.chalmers.se` / `alvis2.c3se.chalmers.se`.
 - All shell commands shown in both PowerShell and bash/zsh.
 - Relative paths + placeholders only (`<cid>`, `<naiss-id>`, `<PROJECT_ID>`).
 - No absolute user-home paths anywhere.

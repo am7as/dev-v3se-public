@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: ghcr.io/prefix-dev/pixi:0.36.0-noble
+From: ghcr.io/prefix-dev/pixi:0.48.0-noble
 
 %environment
     export PIXI_HOME=/opt/pixi

@@ -12,37 +12,32 @@
 
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
+[ -f .env ] && { set -a; . ./.env; set +a; }
 : "${CKPT:?Pass CKPT=/path/to/checkpoint via --export}"
 
+# SIF bundles bake the full base + adapter weights — easily 20–100 GB.
+# Land them on Mimer; Cephyr's 30 GiB cap can't hold even one bundle.
+if [ -n "${MIMER_PROJECT_PATH:-}" ]; then
+    BUNDLE_DIR="${BUNDLE_DIR:-${MIMER_PROJECT_PATH}/results/bundles}"
+else
+    echo "WARNING: MIMER_PROJECT_PATH unset — falling back to \$PWD/results/bundles. On Alvis this will hit the Cephyr quota." >&2
+    BUNDLE_DIR="${BUNDLE_DIR:-$PWD/results/bundles}"
+fi
+mkdir -p "$BUNDLE_DIR"
+
+TPL="apptainer/bundle.def.tpl"
+[ -f "$TPL" ] || { echo "Missing $TPL" >&2; exit 1; }
+
 TS=$(date -u +%Y%m%dT%H%M%SZ)
-OUT="$PWD/results/bundles/reco-${TS}.sif"
-mkdir -p "$(dirname "$OUT")"
+OUT="$BUNDLE_DIR/reco-${TS}.sif"
+DEF="$BUNDLE_DIR/reco-${TS}.def"
 
-cat > /tmp/reco-bundle-${TS}.def <<EOF
-Bootstrap: docker
-From: ghcr.io/prefix-dev/pixi:0.36.0-noble
+# Render the .def from the template, substituting host paths. `|` as the
+# sed delimiter is safe for filesystem paths (which never contain `|`).
+sed -e "s|__WORKSPACE_PATH__|${PWD}|g" \
+    -e "s|__CKPT_PATH__|${CKPT}|g" \
+    "$TPL" > "$DEF"
 
-%files
-    ${PWD}/pixi.toml      /workspace/pixi.toml
-    ${PWD}/pyproject.toml /workspace/pyproject.toml
-    ${PWD}/src            /workspace/src
-    ${PWD}/scripts        /workspace/scripts
-    ${PWD}/configs        /workspace/configs
-    ${CKPT}               /opt/model
-
-%environment
-    export PIXI_HOME=/opt/pixi
-    export PATH=/opt/pixi/bin:\$PATH
-    export HF_MODEL_SNAPSHOT=/opt/model
-
-%post
-    apt-get update && apt-get install -y --no-install-recommends ca-certificates curl git tini && rm -rf /var/lib/apt/lists/*
-    cd /workspace && pixi install
-
-%runscript
-    cd /workspace
-    exec pixi run eval --ckpt /opt/model "\$@"
-EOF
-
-apptainer build "$OUT" /tmp/reco-bundle-${TS}.def
+apptainer build "$OUT" "$DEF"
 echo "Bundled: $OUT"
+echo "Def kept at: $DEF"

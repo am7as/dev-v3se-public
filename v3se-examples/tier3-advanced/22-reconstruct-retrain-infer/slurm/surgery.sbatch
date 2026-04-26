@@ -11,8 +11,18 @@
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 [ -f .env ] && { set -a; . ./.env; set +a; }
-export RESULTS_DIR="${RESULTS_DIR:-$PWD/results}"
-export HF_HOME="${HF_HOME:-$PWD/.hf-cache}"
+
+# Surgery downloads the donor model + writes the surgeried checkpoint —
+# 5–60 GB. Pin to Mimer; Cephyr 30 GiB cap blows immediately.
+if [ -n "${MIMER_PROJECT_PATH:-}" ]; then
+    export RESULTS_DIR="${RESULTS_DIR:-${MIMER_PROJECT_PATH}/results}"
+    export HF_HOME="${HF_HOME:-${MIMER_PROJECT_PATH}/.hf-cache}"
+else
+    echo "WARNING: MIMER_PROJECT_PATH unset — falling back to \$PWD. On Alvis this will hit the Cephyr quota." >&2
+    export RESULTS_DIR="${RESULTS_DIR:-$PWD/results}"
+    export HF_HOME="${HF_HOME:-$PWD/.hf-cache}"
+fi
+export TRANSFORMERS_CACHE="${TRANSFORMERS_CACHE:-$HF_HOME}"
 mkdir -p "$RESULTS_DIR" "$HF_HOME"
 SIF="${SIF:-./dev.sif}"
 [ -f "$SIF" ] || { echo "Missing $SIF" >&2; exit 1; }

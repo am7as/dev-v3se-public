@@ -1,5 +1,5 @@
 Bootstrap: docker
-From: ghcr.io/prefix-dev/pixi:0.36.0-noble
+From: ghcr.io/prefix-dev/pixi:0.48.0-noble
 
 %labels
     Template __PROJECT_SLUG__
@@ -19,7 +19,6 @@ From: ghcr.io/prefix-dev/pixi:0.36.0-noble
     rm -rf /var/lib/apt/lists/*
 
     pixi --version
-    python3 --version
 
 %runscript
     # Default: run whatever the user passes. If nothing, drop into pixi shell.

@@ -38,8 +38,8 @@ almost always want `model.sif` for production.
 
 | File | Produces | Base image | Bakes code? | Bakes weights? | Typical use |
 |------|----------|------------|-------------|----------------|-------------|
-| `dev.def`   | `dev.sif`   | `ghcr.io/prefix-dev/pixi:0.36.0-noble` | no — bind at runtime | no | local iteration |
-| `app.def`   | `app.sif`   | `ghcr.io/prefix-dev/pixi:0.36.0-noble` | yes (`src/`, `scripts/`, etc.) | no | reproducible code, bind weights at runtime |
+| `dev.def`   | `dev.sif`   | `ghcr.io/prefix-dev/pixi:0.48.0-noble` | no — bind at runtime | no | local iteration |
+| `app.def`   | `app.sif`   | `ghcr.io/prefix-dev/pixi:0.48.0-noble` | yes (`src/`, `scripts/`, etc.) | no | reproducible code, bind weights at runtime |
 | `model.def` | `model.sif` | `nvidia/cuda:12.1.0-cudnn8-runtime-ubuntu22.04` | no (code via `pip install transformers`) | **yes** (`/opt/model`) | primary deliverable |
 
 `model.def` highlights:

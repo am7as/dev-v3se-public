@@ -158,7 +158,7 @@ and echoes to stdout.
 
 ### `dev.def`
 
-Minimal SIF. Base image is `ghcr.io/prefix-dev/pixi:0.36.0-noble`.
+Minimal SIF. Base image is `ghcr.io/prefix-dev/pixi:0.48.0-noble`.
 Installs `ca-certificates curl git tini`. **No code baked in** — you
 bind-mount your repo with `--bind .:/workspace` at run time. This is
 what the sbatch uses by default.

@@ -128,7 +128,7 @@ mv model.sif /mimer/NOBACKUP/groups/<naiss-id>/<cid>/sifs/
 Or from laptop (if you built there):
 
 ```bash
-scp ./model.sif <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/sifs/
+scp ./model.sif <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/sifs/
 ```
 
 Symlink or copy into the project folder for sbatch convenience:
@@ -206,7 +206,7 @@ apptainer run --nv \
 
 ```powershell
 rsync -avh --progress `
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-hf-bundle/results/ `
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-hf-bundle/results/ `
   .\results\
 ```
 
@@ -214,7 +214,7 @@ rsync -avh --progress `
 
 ```bash
 rsync -avh --progress \
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-hf-bundle/results/ \
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-hf-bundle/results/ \
   ./results/
 ```
 

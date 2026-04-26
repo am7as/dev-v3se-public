@@ -62,7 +62,7 @@ Sources:
 ```bash
 ssh <cid>@alvis1.c3se.chalmers.se     # login node (interactive, not for heavy work)
 ssh <cid>@alvis2.c3se.chalmers.se     # also login
-ssh <cid>@vera2.c3se.chalmers.se      # transfer node — use for rsync/scp
+ssh <cid>@alvis2.c3se.chalmers.se      # transfer node — use for rsync/scp
 ```
 
 **Open OnDemand portal** (browser-based): Jupyter, VS Code, file manager,
@@ -152,23 +152,23 @@ wastes your allocation. Fire from the login node or a CPU-only sbatch.
 ### Code to Cephyr
 
 ```bash
-rsync -avh --progress ./my-project/ <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-project/
+rsync -avh --progress ./my-project/ <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-project/
 ```
 
 ### Data / weights / large results to Mimer
 
 ```bash
-rsync -avh --progress ./my-data/ <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/my-data/
+rsync -avh --progress ./my-data/ <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/my-data/
 ```
 
 ### Bringing things back
 
 ```bash
 # small results on Cephyr:
-rsync -avh --progress <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-project/results/ ./results/
+rsync -avh --progress <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-project/results/ ./results/
 
 # bulk results / trained weights on Mimer:
-rsync -avh --progress <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/my-project/checkpoints/ ./checkpoints/
+rsync -avh --progress <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/my-project/checkpoints/ ./checkpoints/
 ```
 
 Bulk transfers (> 100 GB): see

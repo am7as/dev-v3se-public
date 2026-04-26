@@ -1,23 +1,27 @@
 # `11-multi-provider-inference` — switch LLM provider by config
 
-Composes `02-inference-api-token` with two more provider flavors:
+One `pixi run infer` entrypoint, six providers split across four
+flavours. Pick one via `.env` (`DEFAULT_PROVIDER=`) or at the CLI
+(`--provider X`). Same `{text, raw, model, usage}` return shape
+everywhere.
 
-1. **API token** (OpenAI-compatible — OpenAI, Azure, vLLM, LM Studio, Ollama)
-2. **CLI subscription** (Claude Code CLI, Gemini CLI — uses your
-   Pro/Max subscription via subprocess)
-3. **vLLM server** (Alvis-sanctioned open-weight serving — launched via
-   `slurm/vllm-server.sbatch`, client connects to its port)
-
-One `pixi run infer` entrypoint. Pick which provider via `.env` or
-`--provider`. Same `{text, raw, model, usage}` return shape everywhere.
+| Flavour            | Provider     | Notes                                                      |
+|--------------------|--------------|------------------------------------------------------------|
+| Cloud API          | `openai`     | OpenAI / Azure (set `OPENAI_BASE_URL` for Azure)           |
+| Cloud API          | `gemini`     | Google `google-genai` SDK; free-tier `gemini-2.5-flash`    |
+| CLI subscription   | `claude_cli` | Drives the local `claude` binary, uses your Pro/Max sub    |
+| Local server       | `lmstudio`   | LM Studio's HTTP endpoint (laptop or Alvis via 06)         |
+| Local server       | `ollama`     | Ollama's OpenAI-compatible endpoint (laptop or Alvis via 07) |
+| Cluster server     | `vllm`       | Alvis A100 server; sbatch handshake via host/port files    |
 
 ## What's new vs Tier 1
 
-- `src/infer_multi/providers/` — three modules: `openai_api.py`,
-  `claude_cli.py`, `vllm.py`. Each exposes `NAME` + `predict()`.
+- `src/infer_multi/providers/` — six modules, each exposes `NAME` +
+  `predict()`: `openai_api.py`, `gemini.py`, `claude_cli.py`,
+  `lmstudio.py`, `ollama.py`, `vllm.py`.
 - `src/infer_multi/router.py` — picks the provider by name.
 - `configs/providers.yaml` — the provider registry.
-- `scripts/infer.py` — `--provider openai|claude_cli|vllm`.
+- `scripts/infer.py` — `--provider openai|gemini|claude_cli|lmstudio|ollama|vllm`.
 - `slurm/vllm-server.sbatch` — launches the vLLM server; writes
   `vllm-port.txt` + `vllm-host.txt` under `$RESULTS_DIR` so the client
   job can connect.
@@ -31,13 +35,24 @@ Copy-Item .env.example .env
 docker compose up -d dev
 docker compose exec dev pixi install
 
-# OpenAI
+# OpenAI cloud (set OPENAI_API_KEY in .env)
 docker compose exec dev pixi run infer --provider openai --prompt "hi"
+
+# Gemini cloud (set GEMINI_API_KEY in .env; free-tier gemini-2.5-flash)
+docker compose exec dev pixi run infer --provider gemini --prompt "hi"
 
 # Claude CLI (requires `claude login` on host + bind ~/.claude)
 docker compose exec dev pixi run infer --provider claude_cli --prompt "hi"
 
-# vLLM (laptop — point at LM Studio/Ollama for local testing)
+# LM Studio local (start the LM Studio server on host with a model loaded;
+# set LMSTUDIO_MODEL to the loaded model id)
+docker compose exec dev pixi run infer --provider lmstudio --prompt "hi"
+
+# Ollama local (run `ollama serve` on host + `ollama pull <model>`;
+# set OLLAMA_MODEL to that model name)
+docker compose exec dev pixi run infer --provider ollama --prompt "hi"
+
+# vLLM cluster (laptop test: point VLLM_HOST/PORT at any OpenAI-compatible server)
 docker compose exec dev pixi run infer --provider vllm --prompt "hi"
 ```
 

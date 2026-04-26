@@ -26,7 +26,7 @@ fi
 
 : "${CEPHYR_USER:?Set CEPHYR_USER in .env or pass it inline (CEPHYR_USER=myid ...)}"
 : "${CEPHYR_PROJECT_PATH:?Set CEPHYR_PROJECT_PATH in .env, e.g. /cephyr/users/\$CEPHYR_USER/Alvis/my-project}"
-: "${CEPHYR_TRANSFER_HOST:=vera2.c3se.chalmers.se}"
+: "${CEPHYR_TRANSFER_HOST:=alvis2.c3se.chalmers.se}"
 
 DEST="${CEPHYR_USER}@${CEPHYR_TRANSFER_HOST}:${CEPHYR_PROJECT_PATH}/"
 

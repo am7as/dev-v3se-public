@@ -125,7 +125,7 @@ ln -sf /mimer/NOBACKUP/groups/<naiss-id>/<cid>/sifs/bundle.sif bundle.sif
 Or from laptop if you built there:
 
 ```bash
-scp bundle.sif <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/sifs/
+scp bundle.sif <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/sifs/
 ```
 
 ## 6. Laptop smoke (optional)
@@ -164,7 +164,7 @@ see the example's `scripts/infer.py`.
 
 ```powershell
 rsync -avh --progress `
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-git-bundle/results/ `
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-git-bundle/results/ `
   .\results\
 ```
 
@@ -172,7 +172,7 @@ rsync -avh --progress `
 
 ```bash
 rsync -avh --progress \
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-git-bundle/results/ \
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-git-bundle/results/ \
   ./results/
 ```
 

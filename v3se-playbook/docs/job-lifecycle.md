@@ -126,6 +126,6 @@ ssh alvis "tail -F /cephyr/users/<cid>/Alvis/<project>/slurm-*.out"
 **After it finishes** — pull back:
 
 ```bash
-rsync -avh <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/results/ ./results/
-rsync -avh <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/<project>/checkpoints/ ./checkpoints/
+rsync -avh <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/results/ ./results/
+rsync -avh <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/<cid>/<project>/checkpoints/ ./checkpoints/
 ```

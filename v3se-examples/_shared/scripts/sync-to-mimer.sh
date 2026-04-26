@@ -43,7 +43,7 @@ fi
 
 : "${CEPHYR_USER:?Set CEPHYR_USER in .env or pass it inline}"
 : "${MIMER_GROUP_PATH:?Set MIMER_GROUP_PATH in .env, e.g. /mimer/NOBACKUP/groups/naiss2025-22-321}"
-: "${CEPHYR_TRANSFER_HOST:=vera2.c3se.chalmers.se}"
+: "${CEPHYR_TRANSFER_HOST:=alvis2.c3se.chalmers.se}"
 
 # If SUBDIR is not given, derive from basename of SRC.
 if [ -z "$SUBDIR" ]; then

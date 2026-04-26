@@ -186,7 +186,7 @@ For batch, write `scripts/infer_batch.py` same as in 03 and 08; call
 
 ```bash
 rsync -avh --progress \
-  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-hf-streaming/results/ \
+  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/my-hf-streaming/results/ \
   ./results/
 ```
 

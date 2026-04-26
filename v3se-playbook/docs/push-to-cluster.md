@@ -1,7 +1,13 @@
 # Push: code to Cephyr, data to Mimer
 
-Two destinations, two scripts, same transport host
-(`vera2.c3se.chalmers.se`).
+Two destinations, two scripts, one transport host:
+**`alvis2.c3se.chalmers.se`** by default (works for everyone with
+Alvis access). If you have a Vera project,
+`vera2.c3se.chalmers.se` is faster for bulk transfers — set
+`CEPHYR_TRANSFER_HOST=vera2.c3se.chalmers.se` in your `.env` (or
+swap `HostName` in the `cephyr-transfer` SSH alias). Same paths,
+same scripts, just a different door. See
+[transfer-methods.md](transfer-methods.md#which-transfer-host-alvis-vs-vera).
 
 ## Pushing code (Cephyr)
 
@@ -25,7 +31,7 @@ bash ./_shared/scripts/sync-to-cephyr.sh --dry-run
 What the script does:
 
 - Reads `CEPHYR_USER` and `CEPHYR_PROJECT_PATH` from `.env`.
-- `rsync -avh` your project root → `<user>@vera2.c3se.chalmers.se:<cephyr-path>/`.
+- `rsync -avh` your project root → `<user>@alvis2.c3se.chalmers.se:<cephyr-path>/`.
 - **Excludes** `.pixi/`, `.venv/`, `__pycache__/`, `.hf-cache/`,
   `results/`, `*.sif`, `.git/`, `.env`, `slurm-*.out`, `slurm-*.err`.
 
@@ -37,7 +43,7 @@ rsync -avh --progress --delete \
   --exclude='.hf-cache/' --exclude='results/' --exclude='*.sif' \
   --exclude='.git/' --exclude='.env' \
   --exclude='slurm-*.out' --exclude='slurm-*.err' \
-  ./  <cid>@vera2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/
+  ./  <cid>@alvis2.c3se.chalmers.se:/cephyr/users/<cid>/Alvis/<project>/
 ```
 
 ## Pushing data / weights (Mimer)
@@ -71,7 +77,7 @@ What the script does:
 
 - Reads `CEPHYR_USER` (for the SSH login) and `MIMER_GROUP_PATH`
   from `.env`.
-- `rsync -avh` the local directory → `<user>@vera2.c3se.chalmers.se:<mimer-path>/<subdir>/`.
+- `rsync -avh` the local directory → `<user>@alvis2.c3se.chalmers.se:<mimer-path>/<subdir>/`.
 - Minimal exclusions (only `.DS_Store`, `Thumbs.db`, `*.pyc`,
   `__pycache__/`) — unlike the Cephyr sync, you probably want your
   data as-is.
@@ -80,7 +86,7 @@ What the script does:
 
 ```bash
 rsync -avh --progress \
-  ./my-data/  <cid>@vera2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/my-data/
+  ./my-data/  <cid>@alvis2.c3se.chalmers.se:/mimer/NOBACKUP/groups/<naiss-id>/my-data/
 ```
 
 ## Very-large transfers (> 100 GB)
