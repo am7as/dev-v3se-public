@@ -1,0 +1,16 @@
+# =============================================================================
+# foundation — project-layout config
+# =============================================================================
+# This file carries LAYOUT (paths inside the container). Secrets and
+# machine-specific overrides go in .env.
+
+[project]
+name        = "foundation"
+description = "C3SE foundation template — minimal skeleton"
+
+[paths]
+data_dir    = "/data"
+results_dir = "/results"
+models_dir  = "/models"
+
+# Downstream templates add [datasets.*] blocks here as they grow.

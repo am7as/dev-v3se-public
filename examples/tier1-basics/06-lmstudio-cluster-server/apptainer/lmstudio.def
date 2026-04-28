@@ -1,0 +1,41 @@
+Bootstrap: docker
+From: ubuntu:24.04
+
+%labels
+    Name    lmstudio-server
+    Author  template contributors
+
+%post
+    # Minimum deps — curl for installer, ca-certificates for HTTPS.
+    apt-get update
+    apt-get install -y curl ca-certificates libfuse2 libglib2.0-0 libxkbcommon0 \
+                       libnss3 libatk-bridge2.0-0 libdrm2 libgbm1 libxshmfence1
+    rm -rf /var/lib/apt/lists/*
+
+    # Install LM Studio CLI.
+    # NOTE: pinned version can change — verify against
+    # https://lmstudio.ai/docs/cli/ before a long-lived build.
+    mkdir -p /opt/lmstudio
+    curl -fsSL https://installers.lmstudio.ai/linux/x64/0.3.5/LM-Studio-0.3.5-linux-x64.AppImage \
+         -o /opt/lmstudio/lms.AppImage
+    chmod +x /opt/lmstudio/lms.AppImage
+
+    # Unpack the AppImage so we can run without FUSE (common on compute nodes).
+    cd /opt/lmstudio
+    ./lms.AppImage --appimage-extract
+    mv squashfs-root lmstudio
+    ln -s /opt/lmstudio/lmstudio/AppRun /usr/local/bin/lms
+
+%environment
+    export PATH=/opt/lmstudio/lmstudio:$PATH
+    # LM Studio default cache goes to $HOME — ALWAYS override on cluster:
+    export LMSTUDIO_CACHE_DIR="${LMSTUDIO_CACHE_DIR:-/tmp/lmstudio}"
+
+%runscript
+    exec lms "$@"
+
+%help
+    Apptainer image with the LM Studio CLI. Start the server with:
+        apptainer run lmstudio.sif server start --port 1234 --host 0.0.0.0
+    Bind a Mimer path over the model cache:
+        --bind /mimer/NOBACKUP/groups/<naiss-id>/<cid>/lmstudio:/tmp/lmstudio

@@ -1,8 +1,0 @@
-[project]
-name        = "train-infer"
-description = "V3SE template: LoRA finetune + bundle + inference"
-
-[paths]
-data_dir    = "/data"
-results_dir = "/results"
-models_dir  = "/models"

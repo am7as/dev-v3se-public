@@ -1,0 +1,23 @@
+[workspace]
+name = "ollama-cluster"
+version = "0.1.0"
+description = "Template: Ollama server hosted on Alvis via Slurm"
+authors = ["template contributors <noreply@example.com>"]
+channels = ["conda-forge"]
+platforms = ["linux-64", "win-64", "osx-arm64"]
+
+[dependencies]
+python = "3.12.*"
+pip = "*"
+pytest = "*"
+
+[pypi-dependencies]
+ollama_cluster = { path = ".", editable = true }
+openai    = ">=1.50"
+
+[tasks]
+smoke = "python scripts/smoke.py"
+info  = "python scripts/info.py"
+infer = "python scripts/infer.py"
+test  = "pytest -q tests/"
+lint  = "python -m compileall src scripts tests"

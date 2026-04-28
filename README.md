@@ -1,17 +1,17 @@
-# dev-v3se-public
+# dev-chalmers-hpc-ml-public
 
-Public V3SE template library for C3SE clusters (Alvis + Vera).
+Public Chalmers HPC ML library for C3SE clusters (Alvis + Vera).
 Three independent deliverables live here, each in its own folder:
 
 | Folder | What it is | When to use it |
 |--------|------------|----------------|
-| [`v3se-templates/`](v3se-templates/) | Blank single-repo V3SE scaffold (tokenised — instantiate with `scripts/instantiate.{sh,ps1}`). | You're starting a new V3SE project from scratch. |
-| [`v3se-examples/`](v3se-examples/) | 15 worked examples across tier-1 / tier-2 / tier-3 (inference, training, multi-source data, pipelines, distributed fine-tuning). | You want a working example to clone and adapt. |
-| [`v3se-playbook/`](v3se-playbook/) | Operational docs — storage model (Cephyr vs Mimer), transfer methods, Slurm sbatch patterns, Apptainer recipes. | You need the "how does C3SE actually work" reference. |
+| [`templates/`](templates/) | Blank single-repo scaffold (tokenised — instantiate with `scripts/instantiate.{sh,ps1}`). | You're starting a new project from scratch. |
+| [`examples/`](examples/) | 15 worked examples across tier-1 / tier-2 / tier-3 (inference, training, multi-source data, pipelines, distributed fine-tuning). | You want a working example to clone and adapt. |
+| [`playbook/`](playbook/) | Operational docs — storage model (Cephyr vs Mimer), transfer methods, Slurm sbatch patterns, Apptainer recipes. | You need the "how does C3SE actually work" reference. |
 
 Each sub-folder has its own `README.md` that goes into more detail.
 
-## The V3SE conventions
+## The C3SE conventions
 
 Every template and example in this repo follows the same
 non-negotiables, so you can switch between them without re-learning:
@@ -30,13 +30,13 @@ non-negotiables, so you can switch between them without re-learning:
 ## Quick start
 
 ```bash
-git clone git@github.com:<YOUR_GH_USER>/dev-v3se-public.git
-cd dev-v3se-public
+git clone git@github.com:am7as/dev-chalmers-hpc-ml-public.git
+cd dev-chalmers-hpc-ml-public
 ```
 
-- Starting clean? → [`v3se-templates/`](v3se-templates/README.md)
-- Want a working example? → [`v3se-examples/`](v3se-examples/README.md)
-- Need to understand C3SE storage / Slurm / transfers? → [`v3se-playbook/`](v3se-playbook/README.md)
+- Starting clean? → [`templates/`](templates/README.md)
+- Want a working example? → [`examples/`](examples/README.md)
+- Need to understand C3SE storage / Slurm / transfers? → [`playbook/`](playbook/README.md)
 
 ## License
 

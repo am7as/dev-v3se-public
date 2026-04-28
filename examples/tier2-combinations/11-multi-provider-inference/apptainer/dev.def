@@ -1,0 +1,18 @@
+Bootstrap: docker
+From: ghcr.io/prefix-dev/pixi:0.48.0-noble
+
+%environment
+    export PIXI_HOME=/opt/pixi
+    export PATH=/opt/pixi/bin:$PATH
+
+%post
+    apt-get update && apt-get install -y --no-install-recommends \
+        ca-certificates curl git openssh-client rsync tini nodejs npm && \
+        rm -rf /var/lib/apt/lists/*
+    # Optional: preinstall the Claude CLI so the claude_cli provider works.
+    # Comment out if you don't use this provider.
+    npm install -g @anthropic-ai/claude-code || echo "Claude CLI install skipped"
+
+%runscript
+    [ "$#" -eq 0 ] && exec bash
+    exec "$@"

@@ -1,0 +1,23 @@
+[workspace]
+name = "data-cephyr"
+version = "0.1.0"
+description = "Template: data workflow on Cephyr (no AI)"
+authors = ["template contributors <noreply@example.com>"]
+channels = ["conda-forge"]
+platforms = ["linux-64", "win-64", "osx-arm64"]
+
+[dependencies]
+python = "3.12.*"
+pip = "*"
+pytest = "*"
+
+[pypi-dependencies]
+data_cephyr = { path = ".", editable = true }
+pandas      = "*"
+
+[tasks]
+smoke   = "python scripts/smoke.py"
+info    = "python scripts/info.py"
+process = "python scripts/process.py"
+test    = "pytest -q tests/"
+lint    = "python -m compileall src scripts tests"

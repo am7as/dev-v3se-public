@@ -1,0 +1,31 @@
+[workspace]
+name = "dist-ft"
+version = "0.1.0"
+description = "Template: multi-GPU full-parameter finetune"
+authors = ["template contributors <noreply@example.com>"]
+channels = ["conda-forge"]
+platforms = ["linux-64", "win-64"]
+
+[dependencies]
+python = "3.12.*"
+pip = "*"
+pytest = "*"
+
+[pypi-dependencies]
+dist_ft      = { path = ".", editable = true }
+torch        = { version = ">=2.5", index = "https://download.pytorch.org/whl/cu121" }
+transformers = ">=4.46"
+accelerate   = ">=1.0"
+deepspeed    = "*"
+trl          = ">=0.11"
+datasets     = ">=3.0"
+wandb        = "*"
+evaluate     = "*"
+
+[tasks]
+smoke = "python scripts/smoke.py"
+info  = "python scripts/info.py"
+train = "accelerate launch --config_file configs/accelerate/ds_zero2.yaml scripts/train.py"
+eval  = "python scripts/eval.py"
+test  = "pytest -q tests/"
+lint  = "python -m compileall src scripts tests"

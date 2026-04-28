@@ -1,0 +1,23 @@
+[workspace]
+name = "foundation"
+version = "0.1.0"
+description = "C3SE foundation template — minimal skeleton"
+authors = ["template contributors <noreply@example.com>"]
+channels = ["conda-forge"]
+platforms = ["linux-64", "win-64", "osx-arm64"]
+
+[dependencies]
+python = "3.12.*"
+pip = "*"
+pytest = "*"
+
+[pypi-dependencies]
+# The project itself, in editable mode.
+foundation = { path = ".", editable = true }
+
+[tasks]
+# Canonical task names — other templates keep these names and semantics.
+smoke = "python scripts/smoke.py"
+info  = "python scripts/info.py"
+test  = "pytest -q tests/"
+lint  = "python -m compileall src scripts tests"
