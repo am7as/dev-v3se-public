@@ -8,7 +8,6 @@
 #SBATCH --time=1-00:00:00
 #SBATCH --gpus-per-node=A100:4
 #SBATCH --cpus-per-task=16
-#SBATCH --mem=256G
 
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"

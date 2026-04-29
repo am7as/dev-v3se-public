@@ -13,7 +13,6 @@
 #SBATCH --time=0-04:00:00                   # 4h default — adjust to your slot
 #SBATCH --gpus-per-node=T4:1                # tune T4 → A100 for bigger models
 #SBATCH --cpus-per-task=4
-#SBATCH --mem=32G
 
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
