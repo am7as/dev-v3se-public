@@ -1,6 +1,6 @@
-# dev-chalmers-hpc-ml-public
+# template-mrw-chalmers-hpc
 
-Public Chalmers HPC ML library for C3SE clusters (Alvis + Vera).
+Public Chalmers HPC library for C3SE clusters (Alvis + Vera).
 Three independent deliverables live here, each in its own folder:
 
 | Folder | What it is | When to use it |
@@ -30,8 +30,8 @@ non-negotiables, so you can switch between them without re-learning:
 ## Quick start
 
 ```bash
-git clone git@github.com:am7as/dev-chalmers-hpc-ml-public.git
-cd dev-chalmers-hpc-ml-public
+git clone git@github.com:am7as/template-mrw-chalmers-hpc.git
+cd template-mrw-chalmers-hpc
 ```
 
 - Starting clean? → [`templates/`](templates/README.md)
