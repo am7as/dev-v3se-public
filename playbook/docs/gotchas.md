@@ -63,7 +63,7 @@ ssh alvis "ls /cephyr/users/<cid>/Alvis/<project>"
 ```
 
 If files are missing, re-run the sync with `--verbose` to see what
-rsync actually did. Check your `CEPHYR_PROJECT_PATH` in `.env`.
+rsync actually did. Check your `CEPHYR_PROJECT_DIR` in `.env`.
 
 ## "Apptainer build fails on login node with 'no space left'"
 

@@ -116,8 +116,8 @@ Regardless of which you pick, you get:
 - **`docs/`** folder with `setup`, `usage`, `modification`, `structure`,
   `troubleshooting`.
 - **Smoke test** (`pixi run smoke`) that exercises the golden path.
-- **Canonical env vars**: `CEPHYR_USER`, `CEPHYR_PROJECT_PATH`,
-  `MIMER_GROUP_PATH`, `MIMER_PROJECT_PATH`, `ALVIS_ACCOUNT`,
+- **Canonical env vars**: `CEPHYR_USER`, `CEPHYR_PROJECT_DIR`,
+  `MIMER_GROUP_ROOT`, `MIMER_USER_DIR`, `ALVIS_ACCOUNT`,
   `CEPHYR_TRANSFER_HOST`, `ALVIS_LOGIN_HOST`.
 
 ## Adapting a template

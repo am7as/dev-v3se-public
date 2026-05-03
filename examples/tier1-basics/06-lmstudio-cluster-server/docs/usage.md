@@ -47,8 +47,8 @@ LMSTUDIO_MODEL=lmstudio-community/llama-3.1-8b-instruct
 LMSTUDIO_CACHE_DIR=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/lmstudio
 
 CEPHYR_USER=<cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-lmstudio
-MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<naiss-id>
+CEPHYR_PROJECT_DIR=/cephyr/users/<cid>/Alvis/my-lmstudio
+MIMER_GROUP_ROOT=/mimer/NOBACKUP/groups/<naiss-id>
 ALVIS_ACCOUNT=<naiss-id>
 ```
 

@@ -59,9 +59,9 @@ HF_HOME=/workspace/.hf-cache
 
 # C3SE cluster — the important bit
 CEPHYR_USER=<your-cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<your-cid>/Alvis/my-hf-streaming
-MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<your-naiss-id>
-MIMER_PROJECT_PATH=/mimer/NOBACKUP/groups/<your-naiss-id>/<your-cid>/my-hf-streaming
+CEPHYR_PROJECT_DIR=/cephyr/users/<your-cid>/Alvis/my-hf-streaming
+MIMER_GROUP_ROOT=/mimer/NOBACKUP/groups/<your-naiss-id>
+MIMER_USER_DIR=/mimer/NOBACKUP/groups/<your-naiss-id>/<your-cid>/my-hf-streaming
 ALVIS_ACCOUNT=<your-naiss-id>
 ```
 

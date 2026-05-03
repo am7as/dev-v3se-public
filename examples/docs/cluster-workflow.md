@@ -74,9 +74,9 @@ Inside sbatch, bind the Mimer paths over `/data`, `/models`,
 
 ```bash
 apptainer run --nv \
-    --bind $MIMER_GROUP_PATH/data:/data:ro \
-    --bind $MIMER_PROJECT_PATH/results:/results \
-    --bind $MIMER_PROJECT_PATH/models:/models \
+    --bind $MIMER_GROUP_ROOT/data:/data:ro \
+    --bind $MIMER_USER_DIR/results:/results \
+    --bind $MIMER_USER_DIR/models:/models \
     dev.sif pixi run train
 ```
 

@@ -82,9 +82,9 @@ Edit `.env` and fill in:
 
 ```ini
 CEPHYR_USER=<your-cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<your-cid>/Alvis/my-hf-inference
-MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<your-naiss-id>
-MIMER_PROJECT_PATH=/mimer/NOBACKUP/groups/<your-naiss-id>/<your-cid>/my-hf-inference
+CEPHYR_PROJECT_DIR=/cephyr/users/<your-cid>/Alvis/my-hf-inference
+MIMER_GROUP_ROOT=/mimer/NOBACKUP/groups/<your-naiss-id>
+MIMER_USER_DIR=/mimer/NOBACKUP/groups/<your-naiss-id>/<your-cid>/my-hf-inference
 ALVIS_ACCOUNT=<your-naiss-id>
 
 HF_MODEL_SNAPSHOT=/mimer/NOBACKUP/Datasets/LLM/huggingface/hub/models--google--gemma-2-2b-it/snapshots/<hash>/

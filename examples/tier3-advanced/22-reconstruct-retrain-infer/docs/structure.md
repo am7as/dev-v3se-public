@@ -109,7 +109,7 @@ bundle copies the full checkpoint into `/opt/model` and
 `HF_MODEL_SNAPSHOT` points at it; runs fully offline
 (`HF_HUB_OFFLINE=1`).
 
-`BUNDLE_DIR` defaults to `$MIMER_PROJECT_PATH/results/bundles/` when
+`BUNDLE_DIR` defaults to `$MIMER_USER_DIR/results/bundles/` when
 that variable is set, falling back to `$PWD/results/bundles/` with a
 loud warning. Bundled SIFs are 20–100 GB — Cephyr's 30 GiB cap won't
 hold even one, so the Mimer default is mandatory on Alvis. Override
@@ -173,7 +173,7 @@ Four distinct persisted artefacts, each with its own size profile:
 | Surgeried model dir  | ~size of base     | `surgery.sbatch`  | **Mimer project** (`$RESULTS_DIR/surgeried/<ts>/`) |
 | Training checkpoint  | ~size of base     | `train.sbatch`    | **Mimer project** (`$RESULTS_DIR/checkpoints/<ts>/`) |
 | Eval report JSON     | KB                | `eval.sbatch`     | **Mimer project** (`$RESULTS_DIR/eval_report.json`) |
-| Bundled SIF          | ~size of base + pixi env | `bundle.sbatch` | **Mimer project** (`$BUNDLE_DIR` → `$MIMER_PROJECT_PATH/results/bundles/`) |
+| Bundled SIF          | ~size of base + pixi env | `bundle.sbatch` | **Mimer project** (`$BUNDLE_DIR` → `$MIMER_USER_DIR/results/bundles/`) |
 
 A distilbert-base-uncased surgery cycle (the shipped example):
 surgeried dir ~260 MB, checkpoint ~260 MB × 2 (save_total_limit=2),
@@ -186,9 +186,9 @@ eval report ~10 KB, bundle SIF ~2 GB. All manageable. Scale up to a
 |----------------|----------------------------------|---------------------------------------------------|-----------------------------|
 | `/workspace`   | `.`                              | `/cephyr/users/<cid>/Alvis/<project>/`            | **Cephyr** — code + SIFs    |
 | `/data`        | `${DATA_HOST:-../data}`          | `/mimer/NOBACKUP/groups/<naiss-id>/data/`         | **Mimer project** — JSONLs if used |
-| `/results`     | `${RESULTS_HOST:-../results}`    | `$MIMER_PROJECT_PATH/results/`                    | **Mimer project** — surgeried/, checkpoints/, eval_report.json |
+| `/results`     | `${RESULTS_HOST:-../results}`    | `$MIMER_USER_DIR/results/`                    | **Mimer project** — surgeried/, checkpoints/, eval_report.json |
 | `/models`      | `${MODELS_HOST:-../models}`      | `/mimer/NOBACKUP/groups/<naiss-id>/models/`       | **Mimer project**           |
-| `$HF_HOME`     | `/workspace/.hf-cache`           | `$MIMER_PROJECT_PATH/.hf-cache`                   | **Mimer project** — base model snapshot |
+| `$HF_HOME`     | `/workspace/.hf-cache`           | `$MIMER_USER_DIR/.hf-cache`                   | **Mimer project** — base model snapshot |
 
 ### Runtime-vs-build resolution
 
@@ -205,13 +205,13 @@ eval report ~10 KB, bundle SIF ~2 GB. All manageable. Scale up to a
 - **Eval sbatch**: reads one specific checkpoint, writes one
   eval report.
 - **Bundle sbatch**: copies a checkpoint tree into a new SIF at
-  build time. Output dir branches on `MIMER_PROJECT_PATH`: when set,
-  bundles land at `$MIMER_PROJECT_PATH/results/bundles/`; otherwise
+  build time. Output dir branches on `MIMER_USER_DIR`: when set,
+  bundles land at `$MIMER_USER_DIR/results/bundles/`; otherwise
   falls back to `$PWD/results/bundles/` with a loud warning. Override
   with `BUNDLE_DIR=/some/path` if needed.
 - **`train.sbatch` + `surgery.sbatch` Mimer-branch** the same way as
-  `05` / `13`: when `MIMER_PROJECT_PATH` is set, `RESULTS_DIR` and
-  `HF_HOME` default to `$MIMER_PROJECT_PATH/...`; otherwise they fall
+  `05` / `13`: when `MIMER_USER_DIR` is set, `RESULTS_DIR` and
+  `HF_HOME` default to `$MIMER_USER_DIR/...`; otherwise they fall
   back to `$PWD/...` with a warning that's harmless on laptop and
   loud on Alvis.
 
@@ -231,5 +231,5 @@ eval report ~10 KB, bundle SIF ~2 GB. All manageable. Scale up to a
   live on Mimer.
 - **All four sbatches Mimer-branch their outputs.** `BUNDLE_DIR` for
   `bundle.sbatch`; `RESULTS_DIR` + `HF_HOME` for `surgery` / `train` /
-  `eval`. Each falls back to `$PWD` only when `MIMER_PROJECT_PATH` is
+  `eval`. Each falls back to `$PWD` only when `MIMER_USER_DIR` is
   unset (laptop case), with a warning that fires on Alvis.

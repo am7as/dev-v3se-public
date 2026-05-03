@@ -82,9 +82,9 @@ you'll actually use, leave the rest blank.
 
 ```ini
 CEPHYR_USER=<cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-infer-multi
-MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<naiss-id>
-MIMER_PROJECT_PATH=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-infer-multi
+CEPHYR_PROJECT_DIR=/cephyr/users/<cid>/Alvis/my-infer-multi
+MIMER_GROUP_ROOT=/mimer/NOBACKUP/groups/<naiss-id>
+MIMER_USER_DIR=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-infer-multi
 
 # Default when --provider is omitted (one of: openai, gemini,
 # claude_cli, lmstudio, ollama, vllm):
@@ -261,7 +261,7 @@ bash _shared/scripts/sync-to-cephyr.sh
 bash _shared/scripts/sync-to-cephyr.sh
 ```
 
-The helper reads `CEPHYR_USER` / `CEPHYR_PROJECT_PATH` from `.env` and
+The helper reads `CEPHYR_USER` / `CEPHYR_PROJECT_DIR` from `.env` and
 excludes `.pixi/`, `results/`, `*.sif`, `.env`.
 
 ### 7c. Ship the Claude credentials (only if you want `claude_cli` on Alvis)

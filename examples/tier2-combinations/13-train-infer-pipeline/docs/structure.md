@@ -70,7 +70,7 @@ needed.
 ### `slurm/train-t4.sbatch`
 
 2-hour `T4:1` job. Same Cephyr/Mimer branch as `05-train-lora` — if
-`MIMER_PROJECT_PATH` is set, `RESULTS_DIR` + `HF_HOME` go to Mimer;
+`MIMER_USER_DIR` is set, `RESULTS_DIR` + `HF_HOME` go to Mimer;
 otherwise falls back to `$PWD` with a warning. Writes the adapter to
 `$RESULTS_DIR/adapters/<utc-stamp>/`.
 
@@ -161,9 +161,9 @@ storage profile:
 |----------------|----------------------------------|---------------------------------------------------|-----------------------------|
 | `/workspace`   | `.`                              | `/cephyr/users/<cid>/Alvis/<project>/`            | **Cephyr** — code + SIFs    |
 | `/data`        | `${DATA_HOST:-../data}`          | `/mimer/NOBACKUP/groups/<naiss-id>/data/`         | **Mimer project** — training JSONL |
-| `/results`     | `${RESULTS_HOST:-../results}`    | `$MIMER_PROJECT_PATH/results/`                    | **Mimer project** — `adapters/<ts>/`, `bundles/<ts>.sif` |
+| `/results`     | `${RESULTS_HOST:-../results}`    | `$MIMER_USER_DIR/results/`                    | **Mimer project** — `adapters/<ts>/`, `bundles/<ts>.sif` |
 | `/models`      | `${MODELS_HOST:-../models}`      | `/mimer/NOBACKUP/groups/<naiss-id>/models/`       | **Mimer project**           |
-| `$HF_HOME`     | `/workspace/.hf-cache`           | `$MIMER_PROJECT_PATH/.hf-cache`                   | **Mimer project**           |
+| `$HF_HOME`     | `/workspace/.hf-cache`           | `$MIMER_USER_DIR/.hf-cache`                   | **Mimer project**           |
 
 ### Runtime-vs-build resolution
 

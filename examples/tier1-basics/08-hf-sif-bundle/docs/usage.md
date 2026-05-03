@@ -65,9 +65,9 @@ HF_MODEL=google/gemma-2-2b-it       # any public HF repo id
 HF_TOKEN=hf_xxx                     # only if the model is gated
 
 CEPHYR_USER=<your-cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<your-cid>/Alvis/my-hf-bundle
-MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<your-naiss-id>
-MIMER_PROJECT_PATH=/mimer/NOBACKUP/groups/<your-naiss-id>/<your-cid>/my-hf-bundle
+CEPHYR_PROJECT_DIR=/cephyr/users/<your-cid>/Alvis/my-hf-bundle
+MIMER_GROUP_ROOT=/mimer/NOBACKUP/groups/<your-naiss-id>
+MIMER_USER_DIR=/mimer/NOBACKUP/groups/<your-naiss-id>/<your-cid>/my-hf-bundle
 ALVIS_ACCOUNT=<your-naiss-id>
 ```
 

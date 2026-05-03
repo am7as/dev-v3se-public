@@ -173,9 +173,9 @@ on Cephyr. Full stop.
 |----------------|----------------------------------|---------------------------------------------------|-----------------------------|
 | `/workspace`   | `.`                              | `/cephyr/users/<cid>/Alvis/<project>/`            | **Cephyr** — code + SIF     |
 | `/data`        | `${DATA_HOST:-../data}`          | `/mimer/NOBACKUP/groups/<naiss-id>/data/`         | **Mimer project**           |
-| `/results`     | `${RESULTS_HOST:-../results}`    | `$MIMER_PROJECT_PATH/results/`                    | **Mimer project** — `checkpoints/<ts>/` |
+| `/results`     | `${RESULTS_HOST:-../results}`    | `$MIMER_USER_DIR/results/`                    | **Mimer project** — `checkpoints/<ts>/` |
 | `/models`      | `${MODELS_HOST:-../models}`      | `/mimer/NOBACKUP/groups/<naiss-id>/models/`       | **Mimer project**           |
-| `$HF_HOME`     | `/workspace/.hf-cache`           | `$MIMER_PROJECT_PATH/.hf-cache`                   | **Mimer project**           |
+| `$HF_HOME`     | `/workspace/.hf-cache`           | `$MIMER_USER_DIR/.hf-cache`                   | **Mimer project**           |
 
 ### Runtime-vs-build resolution
 
@@ -191,7 +191,7 @@ on Cephyr. Full stop.
   HF_HOME=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/.hf-cache
   ```
   Unlike `05` and `13`, this sbatch does **not** branch on
-  `MIMER_PROJECT_PATH` — a known inconsistency; track in the
+  `MIMER_USER_DIR` — a known inconsistency; track in the
   library-audit checklist.
 - **Eval sbatch submit** (Alvis): reads checkpoints from Mimer,
   writes `eval_report.json` to `$RESULTS_DIR` (Mimer).

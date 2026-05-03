@@ -88,7 +88,7 @@ In `.env`:
 
 ```ini
 CEPHYR_USER=<your-cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<your-cid>/Alvis/foundation
+CEPHYR_PROJECT_DIR=/cephyr/users/<your-cid>/Alvis/foundation
 ```
 
 ### Step 2 — Sync to Cephyr

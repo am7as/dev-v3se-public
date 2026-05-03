@@ -143,7 +143,7 @@ Five one-liners that should all succeed before you invest time in
 ```bash
 ssh alvis C3SE_quota                                                 # 1
 ssh alvis "ls -d /mimer/NOBACKUP/groups/<naiss-id>/<cid>/"           # 2
-ssh alvis "mkdir -p \$MIMER_PROJECT_PATH/.hf-cache && ls -d \$_"     # 3
+ssh alvis "mkdir -p \$MIMER_USER_DIR/.hf-cache && ls -d \$_"     # 3
 ssh alvis "module avail apptainer 2>&1 | head -5"                    # 4
 ssh alvis "sbatch --help >/dev/null && echo OK"                      # 5
 ```

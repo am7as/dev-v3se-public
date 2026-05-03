@@ -88,7 +88,7 @@ In `.env`:
 
 ```ini
 CEPHYR_USER=<your-cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<your-cid>/Alvis/__PROJECT_SLUG__
+CEPHYR_PROJECT_DIR=/cephyr/users/<your-cid>/Alvis/__PROJECT_SLUG__
 ```
 
 ### Step 2 — Sync to Cephyr

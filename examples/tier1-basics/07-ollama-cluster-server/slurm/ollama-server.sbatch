@@ -25,8 +25,8 @@ export DATA_DIR="${DATA_DIR:-$PWD/data}"
 export RESULTS_DIR="${RESULTS_DIR:-$PWD/results}"
 mkdir -p "$RESULTS_DIR"
 
-: "${MIMER_GROUP_PATH:?Set MIMER_GROUP_PATH in .env (e.g. /mimer/NOBACKUP/groups/<naiss-id>)}"
-OLLAMA_CACHE="${OLLAMA_MODELS:-$MIMER_GROUP_PATH/$USER/ollama/models}"
+: "${MIMER_USER_DIR:?Set NAISS_PROJECT_ID + CEPHYR_USER in .env (sourced .env should compute MIMER_USER_DIR automatically)}"
+OLLAMA_CACHE="${OLLAMA_MODELS:-${MIMER_USER_DIR}/ollama/models}"
 mkdir -p "$OLLAMA_CACHE"
 
 OLLAMA_MODEL="${OLLAMA_MODEL:-llama3.1:8b}"

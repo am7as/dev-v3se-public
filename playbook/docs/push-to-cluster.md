@@ -30,7 +30,7 @@ bash ./_shared/scripts/sync-to-cephyr.sh --dry-run
 
 What the script does:
 
-- Reads `CEPHYR_USER` and `CEPHYR_PROJECT_PATH` from `.env`.
+- Reads `CEPHYR_USER` and `CEPHYR_PROJECT_DIR` from `.env`.
 - `rsync -avh` your project root → `<user>@alvis2.c3se.chalmers.se:<cephyr-path>/`.
 - **Excludes** `.pixi/`, `.venv/`, `__pycache__/`, `.hf-cache/`,
   `results/`, `*.sif`, `.git/`, `.env`, `slurm-*.out`, `slurm-*.err`.
@@ -49,16 +49,16 @@ rsync -avh --progress --delete \
 ## Pushing data / weights (Mimer)
 
 Every project template ships `_shared/scripts/sync-to-mimer.sh` (once
-`.env` has `MIMER_GROUP_PATH` set). Use for anything big that needs
+`.env` has `MIMER_GROUP_ROOT` set). Use for anything big that needs
 to end up under your project's Mimer allocation.
 
 **PowerShell:**
 
 ```powershell
-# Push ./data → $MIMER_GROUP_PATH/data/
+# Push ./data → $MIMER_GROUP_ROOT/data/
 bash .\_shared\scripts\sync-to-mimer.sh .\data
 
-# Push ./models → $MIMER_GROUP_PATH/models/llama-8b/
+# Push ./models → $MIMER_GROUP_ROOT/models/llama-8b/
 bash .\_shared\scripts\sync-to-mimer.sh .\models models/llama-8b
 
 # Dry run
@@ -75,7 +75,7 @@ bash ./_shared/scripts/sync-to-mimer.sh --dry-run ./data
 
 What the script does:
 
-- Reads `CEPHYR_USER` (for the SSH login) and `MIMER_GROUP_PATH`
+- Reads `CEPHYR_USER` (for the SSH login) and `MIMER_GROUP_ROOT`
   from `.env`.
 - `rsync -avh` the local directory → `<user>@alvis2.c3se.chalmers.se:<mimer-path>/<subdir>/`.
 - Minimal exclusions (only `.DS_Store`, `Thumbs.db`, `*.pyc`,

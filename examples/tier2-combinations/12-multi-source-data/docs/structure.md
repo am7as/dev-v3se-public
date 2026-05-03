@@ -167,7 +167,7 @@ Where each source lands on the Cephyr/Mimer split:
 | `cephyr_private` | `/cephyr/users/<cid>/Alvis/<arbitrary>/`                     | **Cephyr**             | RW        | ≤ 30 GiB / 60k files  |
 | `mimer_project`  | `/mimer/NOBACKUP/groups/<naiss-id>/<cid>/`                   | **Mimer project**      | RW        | hundreds of GiB       |
 | `mimer_shared`   | `/mimer/NOBACKUP/Datasets/<dataset>/`                        | **Mimer shared**       | RO        | free (mirrored)       |
-| `hf_hub`         | `$HF_HOME` → `$MIMER_PROJECT_PATH/.hf-cache` on Alvis        | **Mimer project**      | RW        | bounded by your quota |
+| `hf_hub`         | `$HF_HOME` → `$MIMER_USER_DIR/.hf-cache` on Alvis        | **Mimer project**      | RW        | bounded by your quota |
 | `gcs`            | `/tmp/gcs-mount` (ephemeral per job)                         | compute-node scratch   | RO        | transient             |
 
 Note: `mimer_project` appears in `configs/sources.yaml` as a logical
@@ -188,7 +188,7 @@ Same as every template:
 | `/data`        | `${DATA_HOST:-./data}`           | varies per sbatch (see the three sbatches above)  | varies — see table above    |
 | `/results`     | `${RESULTS_HOST:-../results}`    | `/mimer/NOBACKUP/groups/<naiss-id>/results/`      | **Mimer project**           |
 | `/models`      | `${MODELS_HOST:-../models}`      | `/mimer/NOBACKUP/groups/<naiss-id>/models/`       | **Mimer project**           |
-| `$HF_HOME`     | `/workspace/.hf-cache`           | `$MIMER_PROJECT_PATH/.hf-cache`                   | **Mimer project**           |
+| `$HF_HOME`     | `/workspace/.hf-cache`           | `$MIMER_USER_DIR/.hf-cache`                   | **Mimer project**           |
 
 ### Runtime-vs-build resolution
 
@@ -205,7 +205,7 @@ Same as every template:
 - **`HF_HOME` on Alvis**: `.env.example` sets it to
   `/workspace/.hf-cache`, which is safe on laptop but ruinous on
   Alvis. When using `source=hf_hub` on Alvis, add `export
-  HF_HOME="$MIMER_PROJECT_PATH/.hf-cache"` to the sbatch (mirror the
+  HF_HOME="$MIMER_USER_DIR/.hf-cache"` to the sbatch (mirror the
   pattern in `05-train-lora/slurm/train-t4.sbatch`).
 
 ## Design invariants

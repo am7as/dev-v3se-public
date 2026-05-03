@@ -46,8 +46,8 @@ OLLAMA_MODELS=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/ollama/models
 OLLAMA_PORT=11434
 
 CEPHYR_USER=<cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-ollama
-MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<naiss-id>
+CEPHYR_PROJECT_DIR=/cephyr/users/<cid>/Alvis/my-ollama
+MIMER_GROUP_ROOT=/mimer/NOBACKUP/groups/<naiss-id>
 ALVIS_ACCOUNT=<naiss-id>
 ```
 

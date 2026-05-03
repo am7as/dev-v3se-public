@@ -17,10 +17,10 @@ cd "$SLURM_SUBMIT_DIR"
 
 # SIF bundles bake the full base + adapter weights — easily 20–100 GB.
 # Land them on Mimer; Cephyr's 30 GiB cap can't hold even one bundle.
-if [ -n "${MIMER_PROJECT_PATH:-}" ]; then
-    BUNDLE_DIR="${BUNDLE_DIR:-${MIMER_PROJECT_PATH}/results/bundles}"
+if [ -n "${MIMER_USER_DIR:-}" ]; then
+    BUNDLE_DIR="${BUNDLE_DIR:-${MIMER_USER_DIR}/results/bundles}"
 else
-    echo "WARNING: MIMER_PROJECT_PATH unset — falling back to \$PWD/results/bundles. On Alvis this will hit the Cephyr quota." >&2
+    echo "WARNING: MIMER_USER_DIR unset — set NAISS_PROJECT_ID + CEPHYR_USER in .env. Falling back to \$PWD/results/bundles; on Alvis this will hit the Cephyr 60k-file quota." >&2
     BUNDLE_DIR="${BUNDLE_DIR:-$PWD/results/bundles}"
 fi
 mkdir -p "$BUNDLE_DIR"

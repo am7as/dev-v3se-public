@@ -43,14 +43,14 @@ here. That's what Mimer is for (Pattern 4).
 ## Pattern 4 — Mimer project storage (large, writable, per-project)
 
 Your project has a Mimer allocation at
-`/mimer/NOBACKUP/groups/<naiss-id>/` (e.g. `/mimer/NOBACKUP/groups/naiss2025-22-321/`).
+`/mimer/NOBACKUP/groups/<naiss-id>/` (e.g. `/mimer/NOBACKUP/groups/<naiss-id>/`).
 Typical size is **hundreds of GiB** — this is where big things go.
 
 ```bash
 apptainer run --nv \
-    --bind /mimer/NOBACKUP/groups/naiss2025-22-321/my-dataset:/data \
-    --bind /mimer/NOBACKUP/groups/naiss2025-22-321/$USER/results:/results \
-    --bind /mimer/NOBACKUP/groups/naiss2025-22-321/$USER/models:/models \
+    --bind /mimer/NOBACKUP/groups/<naiss-id>/my-dataset:/data \
+    --bind /mimer/NOBACKUP/groups/<naiss-id>/$USER/results:/results \
+    --bind /mimer/NOBACKUP/groups/<naiss-id>/$USER/models:/models \
     dev.sif pixi run train
 ```
 

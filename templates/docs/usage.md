@@ -165,12 +165,12 @@ MODELS_HOST=
 
 # Cephyr (code) and Mimer (data / weights / results).
 CEPHYR_USER=<cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/<project>
+CEPHYR_PROJECT_DIR=/cephyr/users/<cid>/Alvis/<project>
 CEPHYR_TRANSFER_HOST=alvis2.c3se.chalmers.se
 ALVIS_LOGIN_HOST=alvis2.c3se.chalmers.se
 ALVIS_ACCOUNT=<naiss-id>
-MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<naiss-id>
-MIMER_PROJECT_PATH=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/<project>
+MIMER_GROUP_ROOT=/mimer/NOBACKUP/groups/<naiss-id>
+MIMER_USER_DIR=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/<project>
 
 JUPYTER_PORT=7888
 ```
@@ -337,7 +337,7 @@ bash .\_shared\scripts\sync-to-cephyr.sh
 bash ./_shared/scripts/sync-to-cephyr.sh
 ```
 
-It reads `CEPHYR_USER` / `CEPHYR_PROJECT_PATH` from `.env` and rsyncs
+It reads `CEPHYR_USER` / `CEPHYR_PROJECT_DIR` from `.env` and rsyncs
 the tree over `alvis2.c3se.chalmers.se`, excluding `.git`, `.pixi`,
 `results/`, and `models/`.
 

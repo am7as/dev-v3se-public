@@ -76,7 +76,7 @@ Open `.env` and set at least:
 
 ```ini
 CEPHYR_USER=<cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-reco
+CEPHYR_PROJECT_DIR=/cephyr/users/<cid>/Alvis/my-reco
 
 # Mimer, always — not Cephyr
 RESULTS_HOST=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-reco/results
@@ -358,7 +358,7 @@ sbatch --export=ALL,CKPT=$CKPT slurm/bundle.sbatch
 ```
 
 Output: `$BUNDLE_DIR/reco-<ts>.sif` — defaults to
-`$MIMER_PROJECT_PATH/results/bundles/` on Alvis (or `$PWD/results/bundles/`
+`$MIMER_USER_DIR/results/bundles/` on Alvis (or `$PWD/results/bundles/`
 on laptop with a warning). The SIF's `%runscript`
 invokes `pixi run eval --ckpt /opt/model "$@"`, so any downstream user
 can:

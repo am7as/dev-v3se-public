@@ -30,7 +30,7 @@ non-negotiables, so you can switch between them without re-learning:
 ## Quick start
 
 ```bash
-git clone git@github.com:am7as/template-mrw-chalmers-hpc.git
+git clone git@github.com:<your-github-user>/template-mrw-chalmers-hpc.git
 cd template-mrw-chalmers-hpc
 ```
 

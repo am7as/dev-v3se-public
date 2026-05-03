@@ -81,7 +81,7 @@ cd ..\my-cluster-project
 
 # 3. Configure env
 Copy-Item .env.example .env
-#    Edit .env to set CEPHYR_USER, CEPHYR_PROJECT_PATH, Slurm account.
+#    Edit .env to set CEPHYR_USER, CEPHYR_PROJECT_DIR, Slurm account.
 
 # 4. Laptop dev loop
 docker compose up -d dev
@@ -111,7 +111,7 @@ bash scripts/instantiate.sh
 
 # 3. Configure env
 cp .env.example .env
-#    Edit .env to set CEPHYR_USER, CEPHYR_PROJECT_PATH, Slurm account.
+#    Edit .env to set CEPHYR_USER, CEPHYR_PROJECT_DIR, Slurm account.
 
 # 4. Laptop dev loop
 docker compose up -d dev

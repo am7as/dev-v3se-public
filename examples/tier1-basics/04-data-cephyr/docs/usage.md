@@ -77,14 +77,14 @@ MODELS_HOST=
 
 # Cephyr (code) + Alvis login.
 CEPHYR_USER=<cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-data-project
+CEPHYR_PROJECT_DIR=/cephyr/users/<cid>/Alvis/my-data-project
 CEPHYR_TRANSFER_HOST=alvis2.c3se.chalmers.se
 ALVIS_LOGIN_HOST=alvis2.c3se.chalmers.se
 ALVIS_ACCOUNT=<naiss-id>
 
 # Mimer (data, results) — canonical C3SE split.
-MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<naiss-id>
-MIMER_PROJECT_PATH=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-data-project
+MIMER_GROUP_ROOT=/mimer/NOBACKUP/groups/<naiss-id>
+MIMER_USER_DIR=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-data-project
 
 # Which logical dataset to process (matches configs/datasets.toml).
 DATASET=sample
@@ -338,7 +338,7 @@ jq . results/summary.json
 
 ## 12. Verification checklist
 
-- [ ] `.env` lists real `MIMER_GROUP_PATH` and `MIMER_PROJECT_PATH`
+- [ ] `.env` lists real `MIMER_GROUP_ROOT` and `MIMER_USER_DIR`
       (not committed).
 - [ ] `slurm/process-cpu.sbatch` has real `--account=<naiss-id>`.
 - [ ] Laptop `pixi run process --source sample` produced

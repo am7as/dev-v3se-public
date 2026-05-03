@@ -77,9 +77,9 @@ Edit `.env`:
 
 ```ini
 CEPHYR_USER=<cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-train-infer
-MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<naiss-id>
-MIMER_PROJECT_PATH=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-train-infer
+CEPHYR_PROJECT_DIR=/cephyr/users/<cid>/Alvis/my-train-infer
+MIMER_GROUP_ROOT=/mimer/NOBACKUP/groups/<naiss-id>
+MIMER_USER_DIR=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-train-infer
 
 # Base model (tiny default for the laptop loop; swap for real runs).
 HF_MODEL=sshleifer/tiny-gpt2

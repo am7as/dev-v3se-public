@@ -81,9 +81,9 @@ Edit `.env`:
 
 ```ini
 CEPHYR_USER=<cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-data-multi
-MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<naiss-id>
-MIMER_PROJECT_PATH=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-data-multi
+CEPHYR_PROJECT_DIR=/cephyr/users/<cid>/Alvis/my-data-multi
+MIMER_GROUP_ROOT=/mimer/NOBACKUP/groups/<naiss-id>
+MIMER_USER_DIR=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-data-multi
 
 # Which source to read from when --source is omitted.
 DATASET_SOURCE=local
@@ -255,7 +255,7 @@ bash _shared/scripts/sync-to-mimer.sh .\data\my-dataset my-data-multi/data
 bash _shared/scripts/sync-to-mimer.sh ./data/my-dataset my-data-multi/data
 ```
 
-This writes to `$MIMER_GROUP_PATH/my-data-multi/data/`. You'll bind
+This writes to `$MIMER_GROUP_ROOT/my-data-multi/data/`. You'll bind
 that into `/data` at sbatch time (step 10).
 
 ## 8. Cluster setup

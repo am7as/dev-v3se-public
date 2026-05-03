@@ -87,11 +87,11 @@ On Alvis, create the code dir on Cephyr and the model cache on Mimer:
 ```bash
 ssh alvis
 mkdir -p /cephyr/users/<cid>/Alvis/my-lmstudio
-mkdir -p "$MIMER_GROUP_PATH/<cid>/lmstudio"           # model cache
-mkdir -p "$MIMER_GROUP_PATH/<cid>/apptainer-cache"    # SIF build cache
+mkdir -p "$MIMER_GROUP_ROOT/<cid>/lmstudio"           # model cache
+mkdir -p "$MIMER_GROUP_ROOT/<cid>/apptainer-cache"    # SIF build cache
 ```
 
-Replace `$MIMER_GROUP_PATH` with your concrete path (it's
+Replace `$MIMER_GROUP_ROOT` with your concrete path (it's
 `/mimer/NOBACKUP/groups/<naiss-id>`). The `lmstudio` dir is what
 `LMSTUDIO_CACHE_DIR` will point at; LM Studio drops 10+ GiB model
 archives here across thousands of files — never let this path land on
@@ -117,9 +117,9 @@ Fill in at minimum:
 
 ```ini
 CEPHYR_USER=<cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-lmstudio
-MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<naiss-id>
-MIMER_PROJECT_PATH=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-lmstudio
+CEPHYR_PROJECT_DIR=/cephyr/users/<cid>/Alvis/my-lmstudio
+MIMER_GROUP_ROOT=/mimer/NOBACKUP/groups/<naiss-id>
+MIMER_USER_DIR=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-lmstudio
 ALVIS_ACCOUNT=<naiss-id>
 
 LMSTUDIO_MODEL=lmstudio-community/llama-3.1-8b-instruct

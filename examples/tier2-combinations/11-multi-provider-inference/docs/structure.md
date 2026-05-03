@@ -169,7 +169,7 @@ Cephyr quota.
 | `/results`     | `${RESULTS_HOST:-../results}`    | `/mimer/NOBACKUP/groups/<naiss-id>/results/`      | **Mimer project** — `responses/*.json`, `vllm-{host,port}.txt` |
 | `/models`      | `${MODELS_HOST:-../models}`      | `/mimer/NOBACKUP/groups/<naiss-id>/models/`       | **Mimer project**           |
 | `/root/.claude` | `$CLAUDE_HOST_DIR` (laptop)     | `/cephyr/users/<cid>/.claude/`                    | **Cephyr** — credentials, kilobytes |
-| `$HF_HOME` (vllm) | `$PWD/.hf-cache` (laptop)     | `$MIMER_PROJECT_PATH/.hf-cache`                   | **Mimer project** — vLLM weights |
+| `$HF_HOME` (vllm) | `$PWD/.hf-cache` (laptop)     | `$MIMER_USER_DIR/.hf-cache`                   | **Mimer project** — vLLM weights |
 
 ### Handshake files (vllm only)
 

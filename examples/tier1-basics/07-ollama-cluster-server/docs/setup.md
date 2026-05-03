@@ -88,11 +88,11 @@ On Alvis, create the code dir on Cephyr and the model cache on Mimer:
 ```bash
 ssh alvis
 mkdir -p /cephyr/users/<cid>/Alvis/my-ollama
-mkdir -p "$MIMER_GROUP_PATH/<cid>/ollama/models"         # model cache
-mkdir -p "$MIMER_GROUP_PATH/<cid>/apptainer-cache"       # SIF build cache
+mkdir -p "$MIMER_GROUP_ROOT/<cid>/ollama/models"         # model cache
+mkdir -p "$MIMER_GROUP_ROOT/<cid>/apptainer-cache"       # SIF build cache
 ```
 
-Replace `$MIMER_GROUP_PATH` with the concrete path
+Replace `$MIMER_GROUP_ROOT` with the concrete path
 `/mimer/NOBACKUP/groups/<naiss-id>`. The `ollama/models` dir is what
 `OLLAMA_MODELS` will point at; each model is 2–40 GiB across hundreds
 to thousands of blob files — **do not** let this land on Cephyr.
@@ -117,9 +117,9 @@ Fill in at minimum:
 
 ```ini
 CEPHYR_USER=<cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-ollama
-MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<naiss-id>
-MIMER_PROJECT_PATH=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-ollama
+CEPHYR_PROJECT_DIR=/cephyr/users/<cid>/Alvis/my-ollama
+MIMER_GROUP_ROOT=/mimer/NOBACKUP/groups/<naiss-id>
+MIMER_USER_DIR=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-ollama
 ALVIS_ACCOUNT=<naiss-id>
 
 OLLAMA_MODEL=llama3.1:8b

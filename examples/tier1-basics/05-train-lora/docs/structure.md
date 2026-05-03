@@ -53,16 +53,16 @@ is the canonical reference for Cephyr/Mimer handling in a training
 context — read it carefully:
 
 ```bash
-if [ -n "${MIMER_PROJECT_PATH:-}" ]; then
-    export HF_HOME="${HF_HOME:-${MIMER_PROJECT_PATH}/.hf-cache}"
-    export RESULTS_DIR="${RESULTS_DIR:-${MIMER_PROJECT_PATH}/results}"
+if [ -n "${MIMER_USER_DIR:-}" ]; then
+    export HF_HOME="${HF_HOME:-${MIMER_USER_DIR}/.hf-cache}"
+    export RESULTS_DIR="${RESULTS_DIR:-${MIMER_USER_DIR}/results}"
 else
-    echo "WARNING: MIMER_PROJECT_PATH unset — falling back to \$PWD. On Alvis this will hit the Cephyr quota." >&2
+    echo "WARNING: MIMER_USER_DIR unset — falling back to \$PWD. On Alvis this will hit the Cephyr quota." >&2
     ...
 fi
 ```
 
-If `MIMER_PROJECT_PATH` is set (Alvis), `HF_HOME` and `RESULTS_DIR` go
+If `MIMER_USER_DIR` is set (Alvis), `HF_HOME` and `RESULTS_DIR` go
 to Mimer project. If unset (laptop), they fall back to `$PWD` and the
 sbatch logs a warning — safe on laptop, dangerous on Alvis.
 `--account=<PROJECT_ID>` placeholder must be replaced before first
@@ -137,13 +137,13 @@ Training amplifies every Cephyr/Mimer mistake:
 |----------------|----------------------------------|---------------------------------------------------|-------------------------------------|
 | `/workspace`   | `.` (project root)               | `/cephyr/users/<cid>/Alvis/<project>/`            | **Cephyr** — code + SIF only        |
 | `/data`        | `${DATA_HOST:-../data}`          | `/mimer/NOBACKUP/groups/<naiss-id>/data/`         | **Mimer project** — training JSONL, HF datasets cache |
-| `/results`     | `${RESULTS_HOST:-../results}`    | `$MIMER_PROJECT_PATH/results/`                    | **Mimer project** — `adapters/<ts>/` |
+| `/results`     | `${RESULTS_HOST:-../results}`    | `$MIMER_USER_DIR/results/`                    | **Mimer project** — `adapters/<ts>/` |
 | `/models`      | `${MODELS_HOST:-../models}`      | `/mimer/NOBACKUP/groups/<naiss-id>/models/`       | **Mimer project** — pre-downloaded base weights (optional) |
-| `$HF_HOME`     | `/workspace/.hf-cache`           | `$MIMER_PROJECT_PATH/.hf-cache`                   | **Mimer project** — HF snapshots, blobs |
+| `$HF_HOME`     | `/workspace/.hf-cache`           | `$MIMER_USER_DIR/.hf-cache`                   | **Mimer project** — HF snapshots, blobs |
 
 The default `HF_HOME=/workspace/.hf-cache` in `.env.example` is a
 **laptop-only** default. On Alvis, the sbatch explicitly overrides it
-to `$MIMER_PROJECT_PATH/.hf-cache`. Leaving the default there would
+to `$MIMER_USER_DIR/.hf-cache`. Leaving the default there would
 write snapshots into the bind-mounted project root — which on Alvis is
 Cephyr. A single Llama-8B snapshot (~16 GB, thousands of files) would
 exceed the 30 GiB quota and the 60k file cap simultaneously.
@@ -156,7 +156,7 @@ exceed the 30 GiB quota and the 60k file cap simultaneously.
   `.hf-cache/` (git-ignored), weights get downloaded once per base
   model. Small enough to live on the laptop next to the code.
 - **sbatch submit** (Alvis): the sbatch branches on
-  `MIMER_PROJECT_PATH`. Set it in `.env` (pattern:
+  `MIMER_USER_DIR`. Set it in `.env` (pattern:
   `/mimer/NOBACKUP/groups/<naiss-id>/<project>/`) before first
   submission — the branch is what keeps you out of quota trouble.
 - **Adapter output**: always under

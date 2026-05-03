@@ -71,7 +71,7 @@ Open `.env` and fill in at least:
 
 ```ini
 CEPHYR_USER=<cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-dist-ft
+CEPHYR_PROJECT_DIR=/cephyr/users/<cid>/Alvis/my-dist-ft
 
 # Weights, checkpoints, wandb — all live on Mimer, NOT Cephyr.
 RESULTS_HOST=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-dist-ft/results

@@ -49,9 +49,9 @@ MODEL_REPO=https://github.com/<org>/<model-repo>.git
 MODEL_REF=main                    # or a tag, commit, or LFS branch
 
 CEPHYR_USER=<cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-git-bundle
-MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<naiss-id>
-MIMER_PROJECT_PATH=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-git-bundle
+CEPHYR_PROJECT_DIR=/cephyr/users/<cid>/Alvis/my-git-bundle
+MIMER_GROUP_ROOT=/mimer/NOBACKUP/groups/<naiss-id>
+MIMER_USER_DIR=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-git-bundle
 ALVIS_ACCOUNT=<naiss-id>
 
 # Optional — only if the model-repo references HF-gated weights during its setup

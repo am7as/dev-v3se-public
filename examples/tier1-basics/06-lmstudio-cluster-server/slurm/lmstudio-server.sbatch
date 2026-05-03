@@ -17,7 +17,7 @@
 set -euo pipefail
 cd "$SLURM_SUBMIT_DIR"
 
-# Load the project .env if present (MIMER_GROUP_PATH etc.)
+# Load the project .env if present (MIMER_GROUP_ROOT etc.)
 if [ -f .env ]; then
     set -a; . ./.env; set +a
 fi
@@ -27,8 +27,8 @@ export RESULTS_DIR="${RESULTS_DIR:-$PWD/results}"
 mkdir -p "$RESULTS_DIR"
 
 # Model cache must be on Mimer — a 10+ GiB model would wreck Cephyr quota.
-: "${MIMER_GROUP_PATH:?Set MIMER_GROUP_PATH in .env (e.g. /mimer/NOBACKUP/groups/<naiss-id>)}"
-LMSTUDIO_CACHE="${LMSTUDIO_CACHE_DIR:-$MIMER_GROUP_PATH/$USER/lmstudio}"
+: "${MIMER_USER_DIR:?Set NAISS_PROJECT_ID + CEPHYR_USER in .env (sourced .env should compute MIMER_USER_DIR automatically)}"
+LMSTUDIO_CACHE="${LMSTUDIO_CACHE_DIR:-${MIMER_USER_DIR}/lmstudio}"
 mkdir -p "$LMSTUDIO_CACHE"
 
 SIF="${SIF:-./lmstudio.sif}"

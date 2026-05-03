@@ -78,12 +78,12 @@ MODELS_HOST=
 
 # Cephyr (code) + Alvis login.
 CEPHYR_USER=<cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-infer-api
+CEPHYR_PROJECT_DIR=/cephyr/users/<cid>/Alvis/my-infer-api
 CEPHYR_TRANSFER_HOST=alvis2.c3se.chalmers.se
 ALVIS_LOGIN_HOST=alvis2.c3se.chalmers.se
 ALVIS_ACCOUNT=<naiss-id>
-MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<naiss-id>
-MIMER_PROJECT_PATH=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-infer-api
+MIMER_GROUP_ROOT=/mimer/NOBACKUP/groups/<naiss-id>
+MIMER_USER_DIR=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-infer-api
 
 # --- OPENAI (the provider this template uses) ---
 OPENAI_API_KEY=sk-...your-key-here...

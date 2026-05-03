@@ -9,7 +9,7 @@ uses HuggingFace `transformers` + `peft` + `trl`.
 ## 1. What you'll end up with
 
 - A LoRA adapter at
-  `$MIMER_PROJECT_PATH/adapters/<timestamp>/` (cluster) or
+  `$MIMER_USER_DIR/adapters/<timestamp>/` (cluster) or
   `$RESULTS_DIR/adapters/<timestamp>/` (laptop): adapter weights +
   tokenizer + `run_summary.json`.
 - A generation from the base model + adapter via
@@ -82,12 +82,12 @@ MODELS_HOST=
 
 # Cephyr (code) + Alvis login.
 CEPHYR_USER=<cid>
-CEPHYR_PROJECT_PATH=/cephyr/users/<cid>/Alvis/my-lora-finetune
+CEPHYR_PROJECT_DIR=/cephyr/users/<cid>/Alvis/my-lora-finetune
 CEPHYR_TRANSFER_HOST=alvis2.c3se.chalmers.se
 ALVIS_LOGIN_HOST=alvis2.c3se.chalmers.se
 ALVIS_ACCOUNT=<naiss-id>
-MIMER_GROUP_PATH=/mimer/NOBACKUP/groups/<naiss-id>
-MIMER_PROJECT_PATH=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-lora-finetune
+MIMER_GROUP_ROOT=/mimer/NOBACKUP/groups/<naiss-id>
+MIMER_USER_DIR=/mimer/NOBACKUP/groups/<naiss-id>/<cid>/my-lora-finetune
 
 # Base model. Tiny for first runs.
 HF_MODEL=sshleifer/tiny-gpt2

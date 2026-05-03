@@ -17,10 +17,14 @@ fi
 [ -f .env ] && { set -a; . ./.env; set +a; }
 
 : "${CEPHYR_USER:?Set CEPHYR_USER in .env}"
-: "${CEPHYR_PROJECT_PATH:?Set CEPHYR_PROJECT_PATH in .env}"
+: "${C3SE_PROJECT_ID:?Set C3SE_PROJECT_ID in .env, e.g. <c3se-id>}"
+: "${PROJECT_NAME:?Set PROJECT_NAME in .env}"
 : "${CEPHYR_TRANSFER_HOST:=alvis2.c3se.chalmers.se}"
 
-SRC="${CEPHYR_USER}@${CEPHYR_TRANSFER_HOST}:${CEPHYR_PROJECT_PATH}"
+CEPHYR_GROUP_ROOT="${CEPHYR_GROUP_ROOT:-/cephyr/NOBACKUP/groups/${C3SE_PROJECT_ID}}"
+CEPHYR_PROJECT_DIR="${CEPHYR_PROJECT_DIR:-${CEPHYR_GROUP_ROOT}/projects/${PROJECT_NAME}}"
+
+SRC="${CEPHYR_USER}@${CEPHYR_TRANSFER_HOST}:${CEPHYR_PROJECT_DIR}"
 
 if [ "$MODE" = "results" ]; then
     echo "Pulling results from $SRC/results/"

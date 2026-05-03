@@ -16,11 +16,11 @@ cd "$SLURM_SUBMIT_DIR"
 # HF cache + results MUST land on Mimer when running on the cluster —
 # Cephyr's 30 GiB / 60,000 file quota cannot hold LoRA cache + adapters.
 # Fall back to $PWD ONLY for laptop runs where Mimer doesn't exist.
-if [ -n "${MIMER_PROJECT_PATH:-}" ]; then
-    export HF_HOME="${HF_HOME:-${MIMER_PROJECT_PATH}/.hf-cache}"
-    export RESULTS_DIR="${RESULTS_DIR:-${MIMER_PROJECT_PATH}/results}"
+if [ -n "${MIMER_USER_DIR:-}" ]; then
+    export HF_HOME="${HF_HOME:-${MIMER_USER_DIR}/.hf-cache}"
+    export RESULTS_DIR="${RESULTS_DIR:-${MIMER_USER_DIR}/results}"
 else
-    echo "WARNING: MIMER_PROJECT_PATH unset — falling back to \$PWD. On Alvis this will hit the Cephyr quota." >&2
+    echo "WARNING: MIMER_USER_DIR unset — set NAISS_PROJECT_ID + CEPHYR_USER in .env. Falling back to \$PWD; on Alvis this will hit the Cephyr 60k-file quota." >&2
     export HF_HOME="${HF_HOME:-$PWD/.hf-cache}"
     export RESULTS_DIR="${RESULTS_DIR:-$PWD/results}"
 fi

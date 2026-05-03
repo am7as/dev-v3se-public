@@ -14,11 +14,11 @@ cd "$SLURM_SUBMIT_DIR"
 
 # Surgery downloads the donor model + writes the surgeried checkpoint —
 # 5–60 GB. Pin to Mimer; Cephyr 30 GiB cap blows immediately.
-if [ -n "${MIMER_PROJECT_PATH:-}" ]; then
-    export RESULTS_DIR="${RESULTS_DIR:-${MIMER_PROJECT_PATH}/results}"
-    export HF_HOME="${HF_HOME:-${MIMER_PROJECT_PATH}/.hf-cache}"
+if [ -n "${MIMER_USER_DIR:-}" ]; then
+    export RESULTS_DIR="${RESULTS_DIR:-${MIMER_USER_DIR}/results}"
+    export HF_HOME="${HF_HOME:-${MIMER_USER_DIR}/.hf-cache}"
 else
-    echo "WARNING: MIMER_PROJECT_PATH unset — falling back to \$PWD. On Alvis this will hit the Cephyr quota." >&2
+    echo "WARNING: MIMER_USER_DIR unset — set NAISS_PROJECT_ID + CEPHYR_USER in .env. Falling back to \$PWD; on Alvis this will hit the Cephyr 60k-file quota." >&2
     export RESULTS_DIR="${RESULTS_DIR:-$PWD/results}"
     export HF_HOME="${HF_HOME:-$PWD/.hf-cache}"
 fi
