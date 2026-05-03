@@ -123,3 +123,39 @@ in this order:
 
 Ask C3SE for an allocation increase only after cleaning up — support
 will ask about your housekeeping first.
+
+## "ssh: Connection refused" or "No such host" from off-Chalmers
+
+Since 2026-04-30 Chalmers central IT has blocked inbound SSH (port 22)
+from off-campus following a severe Linux kernel security issue. C3SE
+has requested an exemption; until that lands, off-Chalmers users need
+an alternative path:
+
+| Path | Where to go |
+|---|---|
+| OpenOnDemand (browser-based shell + apps) | `https://alvis.c3se.chalmers.se` |
+| HTTPS-fronted login node 1 | `https://alvis1.c3se.chalmers.se` |
+| HTTPS-fronted login node 2 | `https://alvis2.c3se.chalmers.se` |
+| Chalmers VPN, then `ssh alvis1` | depends on your campus VPN setup |
+
+On-campus (Chalmers wired / wifi) `ssh` continues to work normally.
+
+## "I keep hearing about Arrhenius — what is it?"
+
+Arrhenius is the planned successor cluster to Alvis. C3SE's login
+banner currently states they expect to migrate all users from Alvis
+to Arrhenius in the near future — no firm timeline as of this writing.
+
+Practical impact today: **none**. Keep using Alvis as documented.
+
+What to track: when a migration date is announced, the library's
+defaults will need a sweep —
+
+- `ALVIS_LOGIN_HOST`, `CEPHYR_TRANSFER_HOST` in `secrets-and-setups/.env`
+- Slurm partition names in `*.sbatch` files
+- Storage path roots in `_shared/env/.env.template`
+
+C3SE's interim guidance is to "use containers for software as it's
+likely easier for you to migrate" — which is exactly what the
+Apptainer-based examples here already do, so projects following the
+template should migrate cleanly.
