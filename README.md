@@ -29,7 +29,14 @@ non-negotiables, so you can switch between them without re-learning:
 
 ## Quick start
 
+```powershell
+# PowerShell
+git clone git@github.com:<your-github-user>/template-mrw-chalmers-hpc.git
+cd template-mrw-chalmers-hpc
+```
+
 ```bash
+# bash / zsh
 git clone git@github.com:<your-github-user>/template-mrw-chalmers-hpc.git
 cd template-mrw-chalmers-hpc
 ```
